@@ -12,6 +12,7 @@ databasename=#
 ```
 
 Common commands to look around the database
+* ``\l`` lists all databases
 
 
 ## Setting up pgAdmin3

@@ -12,7 +12,11 @@ databasename=#
 ```
 
 Common commands to look around the database
+* ``\q`` quits PostgreSQL (or quits a subscreen created by any of the following commands)
 * ``\l`` lists all databases
+* ``\d`` lists all tables in a database
+* ``\d+ tablename`` describes all columns in the table named 'tablename'
+* ``\z  tablename`` lists all privileges on the table, http://www.postgresql.org/docs/9.0/static/sql-grant.html
 
 
 ## Setting up pgAdmin3

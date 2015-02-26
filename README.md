@@ -2,7 +2,7 @@
 
 ## Connecting to the server from the command line 
 first, you must ssh into the server, then login to the desired database in PostgreSQL using the command psql
-```
+```bash
 yourcomp:~$  ssh username@switch-db2.erg.berkeley.edu
 username@switch-db2:~$ psql databasename
 psql (9.1.14)

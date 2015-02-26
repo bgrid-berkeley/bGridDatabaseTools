@@ -11,8 +11,8 @@ The following command grants permission on the database weather_forecastio to dg
 GRANT CREATE, CONNECT on DATABASE weather_forecastio TO dgrid;
 ```
 
-Permissions must be granted separately for each table in a database, despite the database "owner"
-The following command grants permission of selecting and updating tables in the weather_forecastio database, assuming that the user is currently logged on to this database. 
+Permissions must be granted separately for each table in a database, even if yo've changed the database "owner."
+The following command grants permission of selecting and updating tables in the weather_forecastio database, assuming that the user is currently logged in to the weather_forecastio. 
 
 ```
 GRANT SELECT, INSERT, UPDATE on "locations","dailyData","hourlyData" TO dgrid;

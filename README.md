@@ -38,10 +38,12 @@ The following command grants privileges for selecting and updating tables in the
 GRANT SELECT, INSERT, UPDATE on "locations","dailyData","hourlyData" TO dgrid;
 ```
 
-## Using the weather_forcastio database
-
+## Using the weather database (weather_forecastio)
 
 ``pgForecastIO.R`` 
 contains a set of functions that connect the forecast.io API to the PostgreSQL database on switch-db2 using R. 
 The functions can also be used to pull weather information (from the database or the API) into R in general. 
-See [pgForecastIO_README.md](https://github.com/bgrid/bGridDatabaseTools/blob/master/pgForecastIO_README.md) or the comments within the file for documentation. 
+
+See [pgForecastIO_README.md](https://github.com/bgrid/bGridDatabaseTools/blob/master/pgForecastIO/pgForecastIO_README.md) or the comments within the file for documentation. 
+
+See [pgForecastIO_driverExample.md](https://github.com/bgrid/bGridDatabaseTools/blob/master/pgForecastIO/pgForecastIO_driverExample.R) for example R code to use the tool. 

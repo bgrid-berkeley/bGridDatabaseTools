@@ -1,7 +1,10 @@
 # pgForecastIO.r
- This file contains a functions to check if weather data is already available in our own MySQL database, 
- And if not it grabs the data from forecast.io and loads it into the database
- As a result there is one major function and a couple of subfunctions that could be useful on their own
+This file contains a functions to check if weather data is already available in the PostgreSQL database, 
+if not it grabs the data from forecast.io and loads it into the database
+
+To see an example of using this tool in R see [pgForecastIO_driverExample.md](https://github.com/bgrid/bGridDatabaseTools/blob/master/pgForecastIO/pgForecastIO_driverExample.R).  
+
+
 
 ## LIST OF FUNCTIONS ************************************************************************
 * ``FIOWeatherGetHourlyAtAllCosts`` looks for hourly weather data in the database, and if any data do not exist it will fetch them from forecast.io

@@ -18,4 +18,4 @@ lon <- -114
 
 weatherdata <- FIOWeatherGetHourlyAtAllCosts(latitude = lat, longitude = lon, 
                                                timebounds = tbounds, dbcon = wcon,
-                                               apikey = apikey)
+                                               apikey = apikey, verbose = TRUE)

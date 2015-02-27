@@ -37,3 +37,11 @@ The following command grants privileges for selecting and updating tables in the
 ```sql
 GRANT SELECT, INSERT, UPDATE on "locations","dailyData","hourlyData" TO dgrid;
 ```
+
+## Using the weather_forcastio database
+
+
+``pgForecastIO.R`` 
+This file contains a set of functino that connect the forecast.io API to the PostgreSQL database on switch using R. 
+The functions can also be used to pull weather information (from the database or the API) into R in general 
+see [pgForecastIO_README.md]() or the comments within the file for documentation. 

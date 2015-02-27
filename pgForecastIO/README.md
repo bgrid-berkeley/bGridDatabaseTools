@@ -59,7 +59,7 @@ Checks if a location already has an identifier, locID, if not it creates one and
 * ``dbcon``      (PostgreSQL connection) an example of how to generation such a connection is in pgForecastIO_DriverExample.R
 
 #### Outputs (numeric)
-the location identified, locId, of the location. 
+the location identifier, locId, of the location. 
 
 ### ``DBWeatherGetDays`` 
 #### Objective 

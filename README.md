@@ -20,9 +20,8 @@ Common commands to look around the database
 
 
 ## Setting up pgAdmin3
-The server is switch-db2.erg.berkeley.edu
-Include your own username and password
-Switch ssl to 'require'
+The server is switch-db2.erg.berkeley.edu.
+In the setup configuration, include your own username and password and switch ssl to 'require'
 
 ## Granting privileges on a database 
 We are all members of the group 'dGrid', thus granting privileges to dgrid should grant to everyone.

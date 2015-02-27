@@ -1,6 +1,6 @@
 require(RPostgreSQL)
 require(Rforecastio)
-source('path/to/bGridDatabaseTools/pgForecastIO.R')
+source('path/to/bGridDatabaseTools/pgForecastIO/pgForecastIO.R')
 
 drv <- dbDriver("PostgreSQL")
 

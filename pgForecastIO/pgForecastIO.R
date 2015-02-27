@@ -21,7 +21,7 @@
 library(Rforecastio)
 
 ##*** FIOWeatherGetHourlyAtAllCosts *********************************************************
-FIOWeatherGetHourlyAtAllCosts <- function(latitude, longitude, timebounds, dbcon, apikey ) {
+FIOWeatherGetHourlyAtAllCosts <- function(latitude, longitude, timebounds, dbcon, apikey, verbose = F ) {
   
   ## Connect to database and set timezone
   con <- dbcon
@@ -36,7 +36,12 @@ FIOWeatherGetHourlyAtAllCosts <- function(latitude, longitude, timebounds, dbcon
   # Load any missing data from forecast.io into the database
   if (length (daysCheck$datesToLoad) > 0){
     loadCheck  <- FIOWeatherGrabLoad(latitude = latitude, longitude = longitude, locId = locId,
-                                     dates = daysCheck$datesToLoad, dbcon = con, apikey = apikey)
+                                     dates = daysCheck$datesToLoad, dbcon = con, apikey = apikey,
+                                     verbose = verbose)
+  } else {
+    
+    if (verbose) message('All requested data are already in database, no need for API calls :)')
+    
   }
   
   # Load the hourly data from MySQL
@@ -174,7 +179,7 @@ DBWeatherGetDays <- function(locId, timebounds, dbcon, returndata = TRUE){
 }
 
 ##*** FIOWeatherGrabLoad ***********************************************************************
-FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, apikey = NA){
+FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, apikey, verbose = F){
   # This function is created to load days of data from forecast.io and insert them into my own personal database
   # Inputs are 
   # latitude  : latitude of forecast.io location
@@ -191,6 +196,16 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
   ## get time zone of database
   #tzdb <- dbGetQuery(con,'SET time_zone = "+00:00";')
   
+  # Get timing of entry 
+  nowtime <- Sys.time()
+  attr(time, 'tzone') <- 'UTC'
+  
+  ## print message
+  if (verbose){
+    msg <- paste(length(dates),'days must be downloaded from forecast.io API')
+    message(msg)
+  }
+  
   
   # get needed information
   if (is.na(apikey))  stop('API key required')
@@ -202,10 +217,6 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
   }
   
   for (d in 1 : length(dates)){    
-    
-    # Get timing of entry 
-    nowtime <- Sys.time()
-    attr(time, 'tzone') <- 'UTC'
     
     # get the data
     fio.list <- fio.forecast(apikey, latitude = latitude, longitude = longitude, for.time = UNIXtime[d], time.formatter = as.POSIXct )
@@ -261,6 +272,12 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
       #field.types=field.types 
       
     )
+    
+    # print progress
+    if (verbose){
+      msg <- paste(d, 'of', length(dates),'days loaded')
+      message(msg)
+    }
   }
   
 }

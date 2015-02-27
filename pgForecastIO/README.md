@@ -36,6 +36,7 @@ Return hourly weather data for a desired time period and location. If data have 
 * ``timebounds`` (POSIXct) two element vector defining first and final dates to be pulled, all dates between will also be pulled
 * ``dbcon``      (PostgreSQL connection) an example of how to generation such a connection is in pgForecastIO_DriverExample.R
 * ``apikey``     (character) api key for forecastio as a character string
+* ``verbose``    (logical) default = FALSE, set to TRUE if you want to be messaged regarding API calls
 
 #### Output (dataframe)
 dataframe of all hourly weather information returned by the Forecast.io API. 

@@ -1,6 +1,6 @@
 # bGridDatabaseTools
 
-## Connecting to the server from the command line 
+## Connecting to the server/database(s) from the command line 
 first, you must ssh into the server, then login to the desired database in PostgreSQL using the command psql
 ```bash
 yourcomp:~$  ssh username@switch-db2.erg.berkeley.edu
@@ -19,10 +19,9 @@ Common commands to look around the database
 * ``\z  tablename`` lists all privileges on the table, http://www.postgresql.org/docs/9.0/static/sql-grant.html
 
 
-## Setting up pgAdmin3
-The server is switch-db2.erg.berkeley.edu
-Include your own username and password
-Switch ssl to 'require'
+## Connecting to the database(s) using pgAdmin3
+The server is switch-db2.erg.berkeley.edu.
+In the setup configuration, include your own username and password and switch ssl to 'require'
 
 ## Granting privileges on a database 
 We are all members of the group 'dGrid', thus granting privileges to dgrid should grant to everyone.

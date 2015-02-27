@@ -19,7 +19,7 @@ Common commands to look around the database
 * ``\z  tablename`` lists all privileges on the table, http://www.postgresql.org/docs/9.0/static/sql-grant.html
 
 
-## Setting up pgAdmin3
+## Connecting to the database using pgAdmin3
 The server is switch-db2.erg.berkeley.edu.
 In the setup configuration, include your own username and password and switch ssl to 'require'
 

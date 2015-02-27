@@ -95,6 +95,10 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
     nowtime <- Sys.time()
     attr(time, 'tzone') <- 'UTC'
     
+    # Get timing of entry 
+    nowtime <- Sys.time()
+    attr(time, 'tzone') <- 'UTC'
+    
     # auto increment the id manually (damnit psql)
     locId       <- dbGetQuery(con, 'SELECT max(locid) from locations;')[1,1] +1
     
@@ -198,6 +202,10 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
   }
   
   for (d in 1 : length(dates)){    
+    
+    # Get timing of entry 
+    nowtime <- Sys.time()
+    attr(time, 'tzone') <- 'UTC'
     
     # get the data
     fio.list <- fio.forecast(apikey, latitude = latitude, longitude = longitude, for.time = UNIXtime[d], time.formatter = as.POSIXct )

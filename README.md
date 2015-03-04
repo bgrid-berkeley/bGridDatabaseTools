@@ -23,7 +23,12 @@ Common commands to look around the database
 The server is switch-db2.erg.berkeley.edu.
 In the setup configuration, include your own username and password and switch ssl to 'require'
 
-## Granting privileges on a database 
+## Adding users and granting privileges 
+Users in PostgreSQL are referred to as 'roles' to create a basic role as a member od the group dgrid use the CREATE ROLE command documenter here: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. A common command for our group is included below. 
+```sql
+CREATE ROLE user WITH LOGIN PASSWORD 'password' IN GROUP dgrid
+```
+
 We are all members of the group 'dGrid', thus granting privileges to dgrid should grant to everyone.
 See http://www.postgresql.org/docs/9.0/static/sql-grant.html for full documentation. 
 The following command grants privileges on the database weather_forecastio to dgrid
@@ -36,6 +41,8 @@ The following command grants privileges for selecting and updating tables in the
 ```sql
 GRANT SELECT, INSERT, UPDATE on "locations","dailyData","hourlyData" TO dgrid;
 ```
+
+
 
 ## Importing a CSV file
 The easiest way to import a CSV file from your local drive to the server is through the PGAdmin interface- right-click on a table, choose "import", and follow the associated menu. Be sure to set the type to 'csv' or set the delimiter and indicate whether there is a header.  You will already need to have defined the table with the appropriate variable types

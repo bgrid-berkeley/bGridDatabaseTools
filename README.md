@@ -54,7 +54,7 @@ or to give an existing database PostGis capabilities, with the database open jus
 To add point geometry information to a table, based on latitude and longitude data in the table:
 ```
 ALTER TABLE mytable ADD COLUMN the_geom geometry;
-UPDATE swfac SET the_geom = ST_MakePoint(CAST(longitude as double precision), CAST(latitude as double precision)); 
+UPDATE mytable SET the_geom = ST_MakePoint(CAST(longitude as double precision), CAST(latitude as double precision)); 
 ALTER TABLE mytable ALTER COLUMN the_geom SET NOT NULL;
 ```
 To import shapefiles: use shp2pgsql or ogr2ogr

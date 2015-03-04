@@ -24,7 +24,7 @@ The server is switch-db2.erg.berkeley.edu.
 In the setup configuration, include your own username and password and switch ssl to 'require'
 
 ## Adding users and granting privileges 
-Users in PostgreSQL are referred to as 'roles' to create a basic role as a member od the group dgrid use the CREATE ROLE command documenter here: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. A common command for our group is included below. 
+Users in PostgreSQL are referred to as 'roles.' To create a basic role as a member of the group dgrid use the CREATE ROLE command documented here: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. A common command for our group is included below. 
 ```sql
 CREATE ROLE user WITH LOGIN PASSWORD 'password' IN GROUP dgrid
 ```

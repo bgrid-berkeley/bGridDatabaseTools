@@ -35,6 +35,14 @@ Here is the command for creading a new schema with an authorization (http://www.
 CREATE SCHEMA schema_name AUTHORIZATION group_or_user_name; 
 ```
 
+### REFERENCING TABLES IN A SCHEMA!
+***Important***
+Moving tables from one schema to another is difficult, so be sure to upload to the appropriate schema. 
+This is very simple, you just have to reference your table as ``schemaname.tablename``.
+
+I.e., if you are uploading a table of California Zip Code Tabulation Area Polygons (ca_zcta_poly) to the schema containing GIS data (gis_data). You would reference the table as ``gis_data.ca_zcta_poly``.
+
+
 ## Connecting to the database(s) using pgAdmin3
 The server is switch-db2.erg.berkeley.edu.
 In the setup configuration, include your own username and password and switch ssl to 'require'

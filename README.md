@@ -1,16 +1,16 @@
 # bGridDatabaseTools
 
-## Connecting to the server/database(s) from the command line 
+## Connecting to the server/database from the command line 
 first, you must ssh into the server, then login to the desired database in PostgreSQL using the command psql
+Our database's name within psql is bgrid 
 ```bash
 yourcomp:~$  ssh username@switch-db2.erg.berkeley.edu
-username@switch-db2:~$ psql databasename
+username@switch-db2:~$ psql bgrid
 psql (9.1.14)
 Type "help" for help.
 
 databasename=# 
 ```
-
 Common commands to look around the database
 * ``\q`` quits PostgreSQL (or quits a subscreen created by any of the following commands)
 * ``\l`` lists all databases
@@ -18,6 +18,22 @@ Common commands to look around the database
 * ``\d+ tablename`` describes all columns in the table named 'tablename'
 * ``\z  tablename`` lists all privileges on the table, http://www.postgresql.org/docs/9.0/static/sql-grant.html
 
+## Creting Roles in the group bgrid group
+Referencing the Postgres help page: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. 
+
+```sql
+CREATE ROLE auser WITH LOGIN IN GROUP bgrid;
+```
+
+## Creating Schemas
+Schemas can be considered "subdatabases" in which tables can be assigned. They are useful for (1) keeping the database tidy in that we can tell how dtaabases are grouped by looking at their schema, and (2) controlling access to databases that may fall under non-disclosure agreements etc. 
+
+If starting a new project, please first create a schema in the bgrid database using the following command, then set the authorization to "bGrid" so that other members of the group can access it.  If you're planning on uploading sensitive data you will need to create a separate group for authorization. Authorizations can be changed after creation.
+
+Here is the command for creading a new schema with an authorization (http://www.postgresql.org/docs/8.1/static/ddl-schemas.html)
+```psql
+CREATE SCHEMA schema_name AUTHORIZATION group_or_user_name; 
+```
 
 ## Connecting to the database(s) using pgAdmin3
 The server is switch-db2.erg.berkeley.edu.

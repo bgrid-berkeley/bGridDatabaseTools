@@ -25,24 +25,6 @@ Referencing the Postgres help page: http://www.postgresql.org/docs/8.1/static/sq
 CREATE ROLE auser WITH LOGIN IN GROUP bgrid;
 ```
 
-## Creating Schemas
-Schemas can be considered "subdatabases" in which tables can be assigned. They are useful for (1) keeping the database tidy in that we can tell how dtaabases are grouped by looking at their schema, and (2) controlling access to databases that may fall under non-disclosure agreements etc. 
-
-If starting a new project, please first create a schema in the bgrid database using the following command, then set the authorization to "bGrid" so that other members of the group can access it.  If you're planning on uploading sensitive data you will need to create a separate group for authorization. Authorizations can be changed after creation.
-
-Here is the command for creading a new schema with an authorization (http://www.postgresql.org/docs/8.1/static/ddl-schemas.html)
-```psql
-CREATE SCHEMA schema_name AUTHORIZATION group_or_user_name; 
-```
-
-### REFERENCING TABLES IN A SCHEMA!
-***Important***
-Moving tables from one schema to another is difficult, so be sure to upload to the appropriate schema. 
-This is very simple, you just have to reference your table as ``schemaname.tablename``.
-
-I.e., if you are uploading a table of California Zip Code Tabulation Area Polygons (ca_zcta_poly) to the schema containing GIS data (gis_data). You would reference the table as ``gis_data.ca_zcta_poly``.
-
-
 ## Connecting to the database(s) using pgAdmin3
 The server is switch-db2.erg.berkeley.edu.
 In the setup configuration, include your own username and password and switch ssl to 'require'

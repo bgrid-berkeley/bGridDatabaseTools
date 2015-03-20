@@ -25,6 +25,6 @@ lon <- -111
 
 # Note: This could also use the FIOWeatherGetDailyAtAllCosts() call, to return the daily data.
 #       The two are identical except for the values which they return. Both will saved in the DB.
-weatherdata <- FIOWeatherGetHourlyAtAllCosts(latitude = lat, longitude = lon, 
+weatherdata <- FIOWeatherGetDataAtAllCosts(latitude = lat, longitude = lon, 
                                                timebounds = tbounds, dbcon = wcon,
                                                apikey = apikey, verbose = TRUE)

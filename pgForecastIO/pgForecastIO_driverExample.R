@@ -3,7 +3,7 @@ require(RPostgreSQL)
 require(Rforecastio)
 source('path/to/bGridDatabaseTools/pgForecastIO/pgForecastIO.R')
 
-## Setup thee postgresql driver
+## Setup the postgresql driver
 drv <- dbDriver("PostgreSQL")
 
 ## Load your api keys and passwords
@@ -22,6 +22,9 @@ lat <- 37
 lon <- -111
 
 # Get data at all costs!
-weatherdata <- FIOWeatherGetDataAtAllCosts(latitude = lat, longitude = lon, 
+
+# Note: This could also use the FIOWeatherGetDailyAtAllCosts() call, to return the daily data.
+#       The two are identical except for the values which they return. Both will saved in the DB.
+weatherdata <- FIOWeatherGetHourlyAtAllCosts(latitude = lat, longitude = lon, 
                                                timebounds = tbounds, dbcon = wcon,
                                                apikey = apikey, verbose = TRUE)

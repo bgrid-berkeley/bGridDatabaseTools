@@ -17,38 +17,29 @@ Common commands to look around the database
 * ``\d`` lists all tables in a database
 * ``\d+ tablename`` describes all columns in the table named 'tablename'
 * ``\z  tablename`` lists all privileges on the table, http://www.postgresql.org/docs/9.0/static/sql-grant.html
-
-## Creting Roles in the group bgrid group
-Referencing the Postgres help page: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. 
-
-```sql
-CREATE ROLE auser WITH LOGIN IN GROUP bgrid;
-```
-
+* 
 ## Connecting to the database(s) using pgAdmin3
 The server is switch-db2.erg.berkeley.edu.
 In the setup configuration, include your own username and password and switch ssl to 'require'
 
 ## Adding users and granting privileges 
-Users in PostgreSQL are referred to as 'roles.' To create a basic role as a member of the group dgrid use the CREATE ROLE command documented here: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. A common command for our group is included below. 
+Users in PostgreSQL are referred to as 'roles.' To create a basic role as a member of the group bgrid use the CREATE ROLE command documented here: http://www.postgresql.org/docs/8.1/static/sql-createrole.html. A common command for our group is included below. 
 ```sql
-CREATE ROLE user WITH LOGIN PASSWORD 'password' IN GROUP dgrid
+CREATE ROLE user WITH LOGIN PASSWORD 'password' IN GROUP bgrid
 ```
 
-We are all members of the group 'dGrid', thus granting privileges to dgrid should grant to everyone.
+We are all members of the group 'bGrid', thus granting privileges to bgrid should grant to everyone.
 See http://www.postgresql.org/docs/9.0/static/sql-grant.html for full documentation. 
-The following command grants privileges on the database weather_forecastio to dgrid
+The following command grants privileges on the database weather_forecastio to bgrid
 ```sql
-GRANT CREATE, CONNECT on DATABASE weather_forecastio TO dgrid;
+GRANT CREATE, CONNECT on DATABASE weather_forecastio TO bgrid;
 ```
 
 Privileges must be granted separately for each table in a database, even if yuo've changed the database "owner."
 The following command grants privileges for selecting and updating tables in the weather_forecastio database, assuming that the user is currently logged in to the weather_forecastio. 
 ```sql
-GRANT SELECT, INSERT, UPDATE on "locations","dailyData","hourlyData" TO dgrid;
+GRANT SELECT, INSERT, UPDATE on "locations","dailyData","hourlyData" TO bgrid;
 ```
-
-
 
 ## Importing a CSV file
 The easiest way to import a CSV file from your local drive to the server is through the PGAdmin interface- right-click on a table, choose "import", and follow the associated menu. Be sure to set the type to 'csv' or set the delimiter and indicate whether there is a header.  You will already need to have defined the table with the appropriate variable types

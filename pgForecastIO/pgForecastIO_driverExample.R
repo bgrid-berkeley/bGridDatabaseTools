@@ -3,7 +3,7 @@ require(RPostgreSQL)
 require(Rforecastio)
 source('path/to/bGridDatabaseTools/pgForecastIO/pgForecastIO.R')
 
-## Setup thee postgresql driver
+## Setup the postgresql driver
 drv <- dbDriver("PostgreSQL")
 
 ## Load your api keys and passwords

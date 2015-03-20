@@ -1,27 +1,21 @@
-## WeatherCheckLoad.r
-# This file contains a functions to check if weather data is already available in our own MySQL database, 
+## pgForecastIO.r
+# This file contains a functions to check if weather data is already available in our own PgSQL database, 
 # And if not it grabs the data from forecast.io and loads it into the database
 # As a result there is one major function and a couple of subfunctions that could be useful on their own
 
 ## LIST OF FUNCTIONS ************************************************************************
-# FIOWeatherGetHourlyAtAllCosts looks for hourly weather data in the database, and if it doesn't exist will fetch it from forecast.io
+# FIOWeatherGetDataAtAllCosts looks for weather data in the database, and if it doesn't exist will fetch it from forecast.io
 # DBWeatherGetLoc Check if a location already has an identifier, if not it creates one, and it returns the identifier
 # DBWeatherGetDays Gets all daily data avaialable within time bounds. Returns which dates have data and optionally also returns the data
 # FIOWeatherGrabLoad loads days of data from forecast.io and inserts them into my own personal database
 # DBWeatherGetHours Gets all hourly data between time bounds. 
 # psqlWriteDataFrame Loads data into PostgreSQL database: I found writing data into PG using R's database tools much more finicky that for mysql
-                
-
-
-## The database is names weatherForecastIO
-## It is storred on my local computer, 
-## The schema for the database is stored in ... GeneralModelFitting/Weather_DB_Create.sql
-## DONT RUN IT! IT WILL ELIMINATE THE DATABSE
 
 library(Rforecastio)
 
 ##*** FIOWeatherGetHourlyAtAllCosts *********************************************************
-FIOWeatherGetHourlyAtAllCosts <- function(latitude, longitude, timebounds, dbcon, apikey, verbose = F ) {
+FIOWeatherGetDataAtAllCosts <- function(latitude, longitude, timebounds, dbcon, apikey, verbose = F, daily = F, callCount = F) {
+  ## Returns hourly or daily (daily=T) data.  Will either return raw DF, or a list of the dates that were called (callCount=T)
   
   ## Connect to database and set timezone
   con <- dbcon
@@ -39,53 +33,23 @@ FIOWeatherGetHourlyAtAllCosts <- function(latitude, longitude, timebounds, dbcon
                                      dates = daysCheck$datesToLoad, dbcon = con, apikey = apikey,
                                      verbose = verbose)
   } else {
-    
     if (verbose) message('All requested data are already in database, no need for API calls :)')
-    
   }
   
-  # Load the hourly data from MySQL
-  hourlydf   <- DBWeatherGetHours(locId = locId, timebounds = timebounds, dbcon = con )
+  # Load the data from PgSQL
+  if (daily==FALSE){ outputDf   <- DBWeatherGetHours(locId = locId, timebounds = timebounds, dbcon = con )
+  } else { outputDf   <- DBWeatherGetDays(locId = locId, timebounds = timebounds, dbcon = con )}
   
+  # Return the dataframe, or the list of loaded dates and the dataframe
+  if (callCount == FALSE){ return(outputDf)
+  } else { return( c(daysCheck$datesToLoad, outputDf) ) }
   
-  # Retuen the horuly dataframe
-  return(hourlydf)
-}
-
-##*** FIOWeatherGetHourlyAtAllCosts *********************************************************
-FIOWeatherGetDailyAtAllCosts <- function(latitude, longitude, timebounds, dbcon = NULL) {
-  
-  ## Connect to database and set timezone
-  con <- dbcon
-  dbGetQuery(con,'SET time zone  "+00:00";')
-  
-  
-  
-  # Get the location id for this latitude and longitude
-  locId      <- DBWeatherGetLoc(latitude = latitude, longitude = longitude, dbcon = con)
-  
-  # Check which days are already loaded in the MySQL database
-  daysCheck  <- DBWeatherGetDays(locId, timebounds = timebounds, returndata = F, dbcon = con)
-  
-  # Load any missing data from forecast.io into the database
-  if (length (daysCheck$datesToLoad) > 0){
-    loadCheck  <- FIOWeatherGrabLoad(latitude = latitude, longitude = longitude, locId = locId,
-                                     dates = daysCheck$datesToLoad, dbcon = con)
-  }
-  
-  # Load the hourly data from MySQL
-  dailydf   <- DBWeatherGetDays(locId = locId, timebounds = timebounds, dbcon = con )
-  
-  
-  # Retuen the horuly dataframe
-  return(dailydf)
 }
 
 ##*** DBWeatherGetLoc ***********************************************************************
 DBWeatherGetLoc <- function(latitude, longitude, dbcon){
   ## Function to retreive the location ID of a set of latitude and longitudes 
-  
-  
+
   ## Connect to database 
   con <- dbcon
   
@@ -114,7 +78,7 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
     locmeta$longitude      <- longitude
     locmeta$dateCreated    <- nowtime
     
-    ## Load locatinoal metadata into mysql 
+    ## Load locational metadata into mysql 
     dbWriteTable( 
       con, 
       "locations", 
@@ -186,7 +150,7 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
   # longitude : longitude of locatoin
   # dates     : dates to load from forecast.io (gives 24 hourls in local time)
   # locID     : the location id of the locatoin in the dataset, if not know the function will retreive it
-  # dbcon     : RBySQL connectin to the database, in not supplies a new connection is made
+  # dbcon     : RBySQL connection to the database, in not supplies a new connection is made
   
   
   ## connect to database
@@ -242,7 +206,7 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     colnames(daily.in2) <- lfields
     daily.in2[,idmatch] <- daily.in[,]
     
-    ## Load daily data into MySQL 
+    ## Load daily data into PgSQL 
     dbWriteTable( 
       con, 
       "dailyData", 
@@ -264,7 +228,7 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     hourly.in <- cbind(newcolshourly, fio.list$hourly.df[,c(4:ncol)])
     
   
-    ## Load hourly data into MySQL 
+    ## Load hourly data into PgSQL 
     psqlWriteDataFrame( 
       con = con, 
       tablename = "hourlyData", 
@@ -291,7 +255,6 @@ DBWeatherGetHours <- function(locId, timebounds, dbcon){
   
   ## connect to database
   con <- dbcon
-  
   
   ## Construct dates to return, all times should be in local standard time 
   dates <- seq(from = timebounds[1], to = timebounds[2], by = 24 * 3600)

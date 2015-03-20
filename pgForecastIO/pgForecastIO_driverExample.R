@@ -22,6 +22,6 @@ lat <- 37
 lon <- -111
 
 # Get data at all costs!
-weatherdata <- FIOWeatherGetHourlyAtAllCosts(latitude = lat, longitude = lon, 
+weatherdata <- FIOWeatherGetDataAtAllCosts(latitude = lat, longitude = lon, 
                                                timebounds = tbounds, dbcon = wcon,
                                                apikey = apikey, verbose = TRUE)

@@ -40,9 +40,9 @@ myPoints = read.csv("LatLonList.csv") # needs to include a column called 'latitu
 
 tbounds = as.POSIXct(c("2013-01-01 00:00:00" ,"2013-01-02 00:00:00"), tz = 'America/Los_Angeles')
 
-callCount = 0 # this will be our counter of days
+callCount = 0 # this will count how many requests we've placed with forecastio
 
-for (i in nrow(myPoints)){  # could also use an apply function, but would be less usable
+for (i in nrow(myPoints)){  # could also use an apply function, but would be less readable
 
   if (callCount < dailyCalls){
     newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]

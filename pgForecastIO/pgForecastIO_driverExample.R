@@ -11,20 +11,51 @@ apikey   <- readLines('path/to/your/secret/apikeyfor/forecastio')[1]
 psqlpass <- readLines('path/to/your/secret/password/for/PostgreSQL')[1]
 
 ## Connect to the weather database
-wcon <- dbConnect(drv, user ="uname", pass = psqlpass, dbname="weather_forecastio", host="switch-db2.erg.berkeley.edu", port=5432)
+wcon <- dbConnect(drv, user ="uname", pass = psqlpass, dbname="bgrid", host="switch-db2.erg.berkeley.edu", port=5432)
 
-## Get some data
-# Set time bounds within which to collect data
-tbounds = as.POSIXct(c("2011-12-01 00:00:00" ,"2011-12-03 17:45:00"), tz = 'America/Regina')
+###  Example using single latitude and longitude ********************************************
 
-# set latitude and longitude
-lat <- 37
-lon <- -111
+# # Set time bounds within which to collect data
+# # Notes: Forecast.io returns a full day of historical data
+# #        The call to Forecast.io is in local time, but will ultimately be save to the DB in UTC.
+# tbounds = as.POSIXct(c("2011-12-01 00:00:00" ,"2011-12-03 17:45:00"), tz = 'America/Los_Angeles')
+# 
+# # set latitude and longitude
+# lat <- 37.87 # UC Berkeley is 37.87, -122.26
+# lon <- -122.26  
+# 
+# # Get data at all costs!
+# weatherdata <- FIOWeatherGetDataAtAllCosts(latitude = lat, longitude = lon, 
+#                                                timebounds = tbounds, dbcon = wcon,
+#                                                apikey = apikey, verbose = TRUE)
 
-# Get data at all costs!
+## Example using a list of datapoints from a CSV *******************************************
+# for each node in our list
+#  If our counter is below the limit, execute the call
+#  If not, wait until midnight then   execute the call
 
-# Note: This could also use the FIOWeatherGetDailyAtAllCosts() call, to return the daily data.
-#       The two are identical except for the values which they return. Both will saved in the DB.
-weatherdata <- FIOWeatherGetDataAtAllCosts(latitude = lat, longitude = lon, 
-                                               timebounds = tbounds, dbcon = wcon,
-                                               apikey = apikey, verbose = TRUE)
+dailyCalls = 100000 # The bgrid Forecast.io call limit is 100K calls/day.  This equates to ~300 point-years of data. 
+
+myPoints = read.csv("LatLonList.csv") # needs to include a column called 'latitude' and a column called 'longitude'
+
+tbounds = as.POSIXct(c("2013-01-01 00:00:00" ,"2013-01-02 00:00:00"), tz = 'America/Los_Angeles')
+
+callCount = 0 # this will be our counter of days
+
+for (i in 1:10 ){  # could also use an apply function, but would be less usable
+
+  if (callCount < dailyCalls){
+    newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]
+    print(paste("Processed node ",myPoints[i,'name']))
+    callCount = callCount + length(newCalls)
+  }else{
+    # We've hit our call count; wait until midnight and then go ahead
+    print("Call limit reached; sleeping until midnight")
+    secsTillMidnight <- as.double(24 - (Sys.time() - as.POSIXct(trunc(Sys.time(),units="days") ) ) )  #Awkward, but this works... times in R are a headache
+    Sys.sleep(secsTillMidnight)
+    callCount = 0
+    newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]
+    print(paste("Processed node ",myPoints[i,'name']))
+    callCount = callCount + length(newCalls)
+  }
+}

@@ -42,7 +42,7 @@ tbounds = as.POSIXct(c("2013-01-01 00:00:00" ,"2013-01-02 00:00:00"), tz = 'Amer
 
 callCount = 0 # this will be our counter of days
 
-for (i in 1:10 ){  # could also use an apply function, but would be less usable
+for (i in nrow(myPoints)){  # could also use an apply function, but would be less usable
 
   if (callCount < dailyCalls){
     newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]

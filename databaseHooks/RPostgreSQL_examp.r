@@ -1,4 +1,4 @@
-## Load required libraries and source the file with the database functions
+## Load required libraries 
 require(RPostgreSQL)
 
 ## Setup the postgresql driver
@@ -11,11 +11,12 @@ psqlpass <- Sys.getenv('sw2_psql_password')
 
 # This is a unix command that connects port 5433 on your computer to port 5432 
 # on switch-db2 securely. It works over ssh, which authenticates with RSA keys. 
-# So you will have to have an and RSA key from your current computer stored in the 
+# So you will have to have an RSA key on your current computer, and the public
+# file for this rda key "id_rsa.pub" copy and pasted onto a line in the
 # ~/.ssh/authorized_keys file on the server. 
 
-# 5433:localhost will act just like switch-db2.erg.berkeley.edu:5432 and there
-# is no need to worry about security etc. 
+# Once the tunnel is set up. localhost:5433 will act just like 
+# switch-db2.erg.berkeley.edu:5432 
 
 # system() runs a command on your system bash and returns the output
 system('ssh -f mtabone@switch-db2.erg.berkeley.edu -L 5433:localhost:5432 -N')

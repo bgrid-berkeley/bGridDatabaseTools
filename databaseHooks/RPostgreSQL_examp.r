@@ -26,6 +26,8 @@ system('ssh -f mtabone@switch-db2.erg.berkeley.edu -L 5433:localhost:5432 -N')
 # The connection is stored in a variable "wcon"
 wcon <- dbConnect(drv, user ="mtabone", pass = psqlpass, dbname="bgrid", host="localhost", port=5433)
 
+# set time zone in the database to the correct timr zone 
+
 # choose a location id to start 
 locId = 10
 
@@ -50,15 +52,13 @@ ggplot(data = weather) +
 
 ## Create a daily table 
 # round the dateTime stamps to be dates
+weather$dateTime
 weather$date   <-  as.factor(as.character(round(weather$dateTime, units = 'days')))
-weatherMTdaily <-  aggregate(weather[,c('hdh65','cdh75')], by = list(weather$date), FUN = sum)
-
-# put the location id in the table 
-weatherMTdaily$locId <- locId;
+weatherMTdaily <-  aggregate(weather[,c('hdh65','cdh75')], by = list(weather$locId, weather$dayId), FUN = sum)
 
 # rename and rearrange columns 
-weatherMTdaily$date <- as.POSIXct(weatherMTdaily$Group.1)
-weatherMTdaily <- weatherMTdaily[,c('locId','date','hdh65','cdh75')]
+colnames(weatherMTdaily)[1:2] <- c('locId','dayId');
+weatherMTdaily <- weatherMTdaily[,c('locId','dayId','hdh65','cdh75')]
 rownames(weatherMTdaily) <- c()
 
 ## ggplot the temperature, HDH and CHD
@@ -72,8 +72,10 @@ ggplot(data = weatherMTdaily) +
 # name   :  a character array, the first element is the schema, the second is the table name 
 # value  : the data.frame you're uploading 
 # append : is a logical asking whether data should be appended to the table (if it exists)
-dbWriteTable( conn = wcon, name = c('mtabone','degreeDays'), value = weatherMTdaily, append = TRUE)
+dbWriteTable( conn = wcon, name = c('mtabone2','dailyDegreeHours'), value = weatherMTdaily, append = TRUE, row.names = FALSE)
 
 # This is generally a mess... there is no primary key on this table, there can be duplicate entries etc. 
 # In general it may be better to input your data by defining the table first and then constructing an SQL query. 
-# We will work on that another day. 
+
+# let's go back to pgAdminIII, drop our old table, and define a new one. 
+head(weatherMTdaily)

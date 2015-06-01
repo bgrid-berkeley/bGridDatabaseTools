@@ -14,7 +14,7 @@ psqlpass <- readLines('path/to/your/secret/password/for/PostgreSQL')[1]
 wcon <- dbConnect(drv, user ="uname", pass = psqlpass, dbname="bgrid", host="switch-db2.erg.berkeley.edu", port=5432)
 
 ## Modify our database environment to include our weather schema
-dbGetQuery(con,'SET search_path = weather_forecastio, public;') # Sets the order in which we search schemas. Only valid for the current session.
+dbGetQuery(wcon,'SET search_path = weather_forecastio, public;') # Sets the order in which we search schemas. Only valid for the current session.
 
 ###  Example using single latitude and longitude ********************************************
 

@@ -24,7 +24,7 @@ FIOWeatherGetDataAtAllCosts <- function(latitude, longitude, timebounds, dbcon, 
   # Get the location id for this latitude and longitude
   locId      <- DBWeatherGetLoc(latitude = latitude, longitude = longitude, dbcon = con)
   
-  # Check which dats are already loaded in the MySQL database
+  # Check which dates are already loaded in the database
   daysCheck  <- DBWeatherGetDays(locId, timebounds = timebounds, returndata = F, dbcon = con)
   
   # Load any missing data from forecast.io into the database
@@ -54,7 +54,7 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
   con <- dbcon
   
   ## Query the location ID, using latlong resolution of .001 (really small I know)
-  locid_query <- paste('select locId from locations WHERE ABS(latitude - ',latitude, ') < .001 AND ',
+  locid_query <- paste('select "locId" from locations WHERE ABS(latitude - ',latitude, ') < .001 AND ',
                        ' ABS(longitude - ',longitude,') < .001')
   locId       <- dbGetQuery(con, locid_query)[1,1] 
   
@@ -69,7 +69,7 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
     attr(time, 'tzone') <- 'UTC'
     
     # auto increment the id manually (damnit psql)
-    locId       <- dbGetQuery(con, 'SELECT max(locid) from locations;')[1,1] +1
+    locId       <- dbGetQuery(con, 'SELECT max("locId") from locations;')[1,1] +1
     
     #  Make the input data
     locmeta                <- data.frame(matrix(nrow = 1, ncol = 0))
@@ -148,7 +148,7 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
   # Inputs are 
   # latitude  : latitude of forecast.io location
   # longitude : longitude of locatoin
-  # dates     : dates to load from forecast.io (gives 24 hourls in local time)
+  # dates     : dates to load from forecast.io (gives 24 hours in local time)
   # locID     : the location id of the locatoin in the dataset, if not know the function will retreive it
   # dbcon     : RBySQL connection to the database, in not supplies a new connection is made
   
@@ -169,7 +169,6 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     msg <- paste(length(dates),'days must be downloaded from forecast.io API')
     message(msg)
   }
-  
   
   # get needed information
   if (is.na(apikey))  stop('API key required')
@@ -194,12 +193,12 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     attr(daily.in$dateCreated,     'tzone') <- 'UTC'
     attr(daily.in$dateMeasurement, 'tzone') <- 'UTC'
     
-    # create dayId column (required for the psql R connection :()
+    # create dayId column (required for the psql R connection :( )
     dayId <- as.numeric(dbGetQuery(wcon, 'SELECT max("dayId") from "dailyData";')+1)
     daily.in <- cbind(dayId, daily.in)
     colnames(daily.in)[1] <- 'dayId'
     
-    # rearrange columns to match those is psql (some of them got swapped in the transfer somehow)
+    # rearrange columns to match those in psql (some of them got swapped in the transfer somehow)
     lfields             <- dbListFields(wcon,'dailyData')
     idmatch             <- match(colnames(daily.in), lfields)
     daily.in2           <- data.frame(matrix(NA, nrow = 1, ncol = length(lfields)))
@@ -221,13 +220,12 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     hoursUTC <- fio.list$hourly.df$time
     attr(hoursUTC, 'tzone') <- 'UTC'
     
-    newcolshourly <- data.frame( 'locId' = matrix(locId[1], nrow= 24), 
+    newcolshourly <- data.frame( 'locId' = matrix(locId[1], nrow= 24),  # Not robust to daylight savings?
                                  'dayId' = matrix(dayId[1], nrow= 24), 
                                  'dateTime' = hoursUTC )
     ncol    <- dim(fio.list$hourly.df)[2]
     hourly.in <- cbind(newcolshourly, fio.list$hourly.df[,c(4:ncol)])
     
-  
     ## Load hourly data into PgSQL 
     psqlWriteDataFrame( 
       con = con, 

@@ -13,6 +13,9 @@ psqlpass <- readLines('path/to/your/secret/password/for/PostgreSQL')[1]
 ## Connect to the weather database
 wcon <- dbConnect(drv, user ="uname", pass = psqlpass, dbname="bgrid", host="switch-db2.erg.berkeley.edu", port=5432)
 
+## Modify our session environment to include our weather schema
+dbGetQuery(wcon,'SET search_path = weather_forecastio, public;') # Sets the order in which we search schemas. Only valid for the current session.
+
 ###  Example using single latitude and longitude ********************************************
 
 # # Set time bounds within which to collect data
@@ -34,13 +37,15 @@ wcon <- dbConnect(drv, user ="uname", pass = psqlpass, dbname="bgrid", host="swi
 #  If our counter is below the limit, execute the call
 #  If not, wait until midnight then   execute the call
 
-dailyCalls = 100000 # The bgrid Forecast.io call limit is 100K calls/day.  This equates to ~300 point-years of data. 
+dailyCalls = 10 # The bgrid Forecast.io call limit is 100K calls/day.  This equates to ~300 point-years of data. 
 
-myPoints = read.csv("LatLonList.csv") # needs to include a column called 'latitude' and a column called 'longitude'
+myPoints = read.csv("LMPLocations.csv") # needs to include a column called 'latitude' and a column called 'longitude'
 
-tbounds = as.POSIXct(c("2013-01-01 00:00:00" ,"2013-01-02 00:00:00"), tz = 'America/Los_Angeles')
+tbounds = as.POSIXct(c("2013-01-05 00:00:00" ,"2013-01-05 00:00:00"), tz = 'America/Los_Angeles')
 
-callCount = 0 # this will be our counter of days
+callCount = 0 # this will be our counter to make sure that we're below our API cap for the day
+
+#i = 1 # uncomment this to just work with one location
 
 for (i in nrow(myPoints)){  # could also use an apply function, but would be less usable
 
@@ -58,4 +63,4 @@ for (i in nrow(myPoints)){  # could also use an apply function, but would be les
     print(paste("Processed node ",myPoints[i,'name']))
     callCount = callCount + length(newCalls)
   }
-}
+} # comment this to just work with one location

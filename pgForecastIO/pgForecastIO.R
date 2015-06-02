@@ -37,12 +37,22 @@ FIOWeatherGetDataAtAllCosts <- function(latitude, longitude, timebounds, dbcon, 
   }
   
   # Load the data from PgSQL
-  if (daily==FALSE){ outputDf   <- DBWeatherGetHours(locId = locId, timebounds = timebounds, dbcon = con )
-  } else { outputDf   <- DBWeatherGetDays(locId = locId, timebounds = timebounds, dbcon = con )}
+  if (daily==FALSE){ 
+    outputDf   <- DBWeatherGetHours(locId = locId, timebounds = timebounds, dbcon = con )
+  } else { 
+    outputDf   <- DBWeatherGetDays(locId = locId, timebounds = timebounds, dbcon = con )
+  }
   
   # Return the dataframe, or the list of loaded dates and the dataframe
-  if (callCount == FALSE){ return(outputDf)
-  } else { return( c(daysCheck$datesToLoad, outputDf) ) }
+  outputlist <- list()
+  outputlist$data <- OutputDf
+  
+  # If requested, also retuen the number of calls. 
+  if (callCount == TRUE){ 
+    outputlist$callCount <- length(daysCheck$datesToLoad)
+  }
+  
+  return(outputlist)
   
 }
 

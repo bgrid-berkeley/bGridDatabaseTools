@@ -45,7 +45,7 @@ FIOWeatherGetDataAtAllCosts <- function(latitude, longitude, timebounds, dbcon, 
   
   # Return the dataframe
   outputlist <- list()
-  outputlist$data <- OutputDf
+  outputlist$data <- outputDf
   
   # If requested, also retuen the number of calls. 
   if (callCount == TRUE){ 
@@ -64,7 +64,7 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
   con <- dbcon
   
   ## Query the location ID, using latlong resolution of .001 (really small I know)
-  locid_query <- paste('select "locId" from locations WHERE ABS(latitude - ',latitude, ') < .001 AND ',
+  locid_query <- paste('select "locId" from weather_forecastio.locations WHERE ABS(latitude - ',latitude, ') < .001 AND ',
                        ' ABS(longitude - ',longitude,') < .001')
   locId       <- dbGetQuery(con, locid_query)[1,1] 
   
@@ -79,7 +79,7 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
     attr(time, 'tzone') <- 'UTC'
     
     # auto increment the id manually (damnit psql)
-    locId       <- dbGetQuery(con, 'SELECT max("locId") from locations;')[1,1] +1
+    locId       <- dbGetQuery(con, 'SELECT max("locId") from weather_forecastio.locations;')[1,1] +1
     
     #  Make the input data
     locmeta                <- data.frame(matrix(nrow = 1, ncol = 0))
@@ -91,7 +91,7 @@ DBWeatherGetLoc <- function(latitude, longitude, dbcon){
     ## Load locational metadata into mysql 
     dbWriteTable( 
       con, 
-      "locations", 
+      c("weather_forecastio","locations"), 
       value=locmeta, 
       append=TRUE, 
       row.names=FALSE #, 
@@ -124,9 +124,9 @@ DBWeatherGetDays <- function(locId, timebounds, dbcon, returndata = TRUE){
   msqldatestr <- paste("\'",dates,"\'", collapse=",", sep = "")
   
   if (returndata) {
-    msqlquery   <- paste('SELECT * from "dailyData" WHERE "locId" = ',locId,'AND "dateMeasurement" IN (', msqldatestr,');')
+    msqlquery   <- paste('SELECT * from weather_forecastio."dailyData" WHERE "locId" = ',locId,'AND "dateMeasurement" IN (', msqldatestr,');')
   } else {
-    msqlquery   <- paste('SELECT "dateMeasurement" from "dailyData" WHERE "locId" = ',locId,'AND "dateMeasurement" IN (', msqldatestr,');')
+    msqlquery   <- paste('SELECT "dateMeasurement" from weather_forecastio."dailyData" WHERE "locId" = ',locId,'AND "dateMeasurement" IN (', msqldatestr,');')
   }
   
   ## Get the daily data
@@ -204,12 +204,12 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     attr(daily.in$dateMeasurement, 'tzone') <- 'UTC'
     
     # create dayId column (required for the psql R connection :( )
-    dayId <- as.numeric(dbGetQuery(wcon, 'SELECT max("dayId") from "dailyData";')+1)
+    dayId <- as.numeric(dbGetQuery(wcon, 'SELECT max("dayId") from weather_forecastio."dailyData";')+1)
     daily.in <- cbind(dayId, daily.in)
     colnames(daily.in)[1] <- 'dayId'
     
     # rearrange columns to match those in psql (some of them got swapped in the transfer somehow)
-    lfields             <- dbListFields(wcon,'dailyData')
+    lfields             <- dbListFields(wcon,c('weather_forecastio','dailyData'))
     idmatch             <- match(colnames(daily.in), lfields)
     daily.in2           <- data.frame(matrix(NA, nrow = 1, ncol = length(lfields)))
     colnames(daily.in2) <- lfields
@@ -218,7 +218,7 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     ## Load daily data into PgSQL 
     dbWriteTable( 
       con, 
-      "dailyData", 
+      c("weather_forecastio","dailyData"), 
       value=daily.in2, 
       overwrite=FALSE, 
       append=TRUE, 
@@ -238,8 +238,9 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     
     ## Load hourly data into PgSQL 
     psqlWriteDataFrame( 
-      con = con, 
-      tablename = "hourlyData", 
+      con = con ,
+      tablename = "hourlyData" ,
+      schemaname = "weather_forecastio",
       value=hourly.in
       #field.types=field.types 
       
@@ -270,7 +271,7 @@ DBWeatherGetHours <- function(locId, timebounds, dbcon){
   
   ## Grab the dayIDs for this call 
   msqldatestr <- paste("\'",dates,"\'", collapse=",", sep = "")
-  Dmsqlquery   <- paste('SELECT "dayId" FROM "dailyData" WHERE "locId" = ',
+  Dmsqlquery   <- paste('SELECT "dayId" FROM weather_forecastio."dailyData" WHERE "locId" = ',
                         locId,'AND "dateMeasurement" IN (', msqldatestr,');')
   
   ## Get the daily data
@@ -296,7 +297,7 @@ DBWeatherGetHours <- function(locId, timebounds, dbcon){
 }
 
 ## psqlWriteTable  ---------------------------------------------
-psqlWriteDataFrame <- function(con, tablename, value, fieldnames = NA) {
+psqlWriteDataFrame <- function(con, tablename, schemaname, value, fieldnames = NA) {
   # Appends data from a dataframe (value) to columns (colnames) 
   # in a table (tablename) in PostgreSQL
   # inputs :
@@ -311,7 +312,7 @@ psqlWriteDataFrame <- function(con, tablename, value, fieldnames = NA) {
   
   if (is.na(fieldnames) ) {
     # Match field names in psql to column names in the dataframe
-    lfields             <- dbListFields(con,tablename)
+    lfields             <- dbListFields(con,c(schemaname,tablename))
     fieldsuse           <- colnames(value)[is.element(colnames(value), lfields)]
   } else {
     fieldsuse           <- fieldnames
@@ -319,7 +320,7 @@ psqlWriteDataFrame <- function(con, tablename, value, fieldnames = NA) {
   
   # create initiarion of SQL query that defines which columns of the table to insert into
   psqlcolnames <- paste('\"', fieldsuse, '\"', collapse=' , ', sep = "")
-  psqlstr1 <- paste('INSERT INTO \"', tablename, '\" (', psqlcolnames,') VALUES', sep = "")
+  psqlstr1 <- paste('INSERT INTO \"', schemaname ,'\".\"', tablename, '\" (', psqlcolnames,') VALUES', sep = "")
   
   # format R data to a proper character form for insertion.  
   valuestrmat <- matrix('', nrow = dim(value)[1], ncol = dim(value)[2])

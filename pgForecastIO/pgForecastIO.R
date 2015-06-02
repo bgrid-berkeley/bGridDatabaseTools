@@ -43,7 +43,7 @@ FIOWeatherGetDataAtAllCosts <- function(latitude, longitude, timebounds, dbcon, 
     outputDf   <- DBWeatherGetDays(locId = locId, timebounds = timebounds, dbcon = con )
   }
   
-  # Return the dataframe, or the list of loaded dates and the dataframe
+  # Return the dataframe
   outputlist <- list()
   outputlist$data <- OutputDf
   

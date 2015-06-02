@@ -13,7 +13,8 @@ psqlpass <- readLines('path/to/your/secret/password/for/PostgreSQL')[1]
 ## Connect to the weather database
 wcon <- dbConnect(drv, user ="uname", pass = psqlpass, dbname="bgrid", host="switch-db2.erg.berkeley.edu", port=5432)
 
-## Modify our session environment to include our weather schema
+## Modify our database environment to include our weather schema
+
 dbGetQuery(wcon,'SET search_path = weather_forecastio, public;') # Sets the order in which we search schemas. Only valid for the current session.
 
 ###  Example using single latitude and longitude ********************************************
@@ -47,7 +48,7 @@ callCount = 0 # this will be our counter to make sure that we're below our API c
 
 #i = 1 # uncomment this to just work with one location
 
-for (i in nrow(myPoints)){  # could also use an apply function, but would be less usable
+for (i in nrow(myPoints)){  # could also use an apply function, but would be less readable
 
   if (callCount < dailyCalls){
     newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]

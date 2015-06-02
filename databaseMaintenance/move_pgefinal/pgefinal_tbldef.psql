@@ -1,0 +1,626 @@
+-- Converted by db_converter
+START TRANSACTION;
+SET standard_conforming_strings=off;
+SET escape_string_warning=off;
+SET CONSTRAINTS ALL DEFERRED;
+
+CREATE TABLE pge_data."01customer" (
+    "START" date DEFAULT NULL,
+    "END" date DEFAULT NULL,
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "PER_ID" integer DEFAULT NULL,
+    "SERVICE_AGREEMENT_ID" integer DEFAULT NULL,
+    "SP_ID" bigint DEFAULT NULL,
+    "PREMISE_ID" integer DEFAULT NULL,
+    "SVC_TYPE_CD" char(1) DEFAULT NULL,
+    UNIQUE ("SERVICE_AGREEMENT_ID")
+);
+
+CREATE TABLE pge_data."02premise" (
+    "PREMISE_ID" integer DEFAULT NULL,
+    "FUEL" varchar(30) DEFAULT NULL,
+    "POSTAL_CODE" char(5) DEFAULT NULL,
+    "CITY" varchar(50) DEFAULT NULL,
+    "COUNTY" varchar(50) DEFAULT NULL,
+    "DIVISION_CODE" char(3) DEFAULT NULL,
+    "CLIMATE_BAND" char(1) DEFAULT NULL,
+    "AREA" char(5) DEFAULT NULL,
+    "GEOGRAPHY" varchar(50) DEFAULT NULL,
+    "E_SM_BILLED_READ_DATE" date DEFAULT NULL,
+    "E_SM_INSTALL_DATE" date DEFAULT NULL,
+    "E_SM_INSTALL_DATE_ACCURACY" int4 DEFAULT NULL,
+    "G_SM_BILLED_READ_DATE" date DEFAULT NULL,
+    "G_SM_INSTALL_DATE" date DEFAULT NULL,
+    "G_SM_INSTALL_DATE_ACCURACY" int4 DEFAULT NULL,
+    "INTERCONNECTION_DT" date DEFAULT NULL,
+    "INVERTER_NAMEPLATE_KW2" integer DEFAULT NULL,
+    "NEM_FLAG" int4 DEFAULT NULL,
+    UNIQUE ("PREMISE_ID")
+);
+
+CREATE TABLE pge_data."02premiseMT" (
+    "PREMISE_ID" integer DEFAULT NULL,
+    "FUEL" varchar(30) DEFAULT NULL,
+    "basicOrFullElec" varchar(2) NOT NULL DEFAULT '',
+    "CLIMATE_BAND" char(1) DEFAULT NULL
+);
+
+CREATE TABLE pge_data."03accountMT" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "indvOrMaster" varchar(2) NOT NULL DEFAULT ''
+);
+
+CREATE TABLE pge_data."03accounts" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "PREMISE_ID" integer DEFAULT NULL,
+    "GEOGRAPHY" varchar(30) DEFAULT NULL,
+    "CLIMATE_BAND" varchar(30) DEFAULT NULL,
+    "ELECTRIC_RATE" varchar(30) DEFAULT NULL,
+    "GAS_RATE" varchar(30) DEFAULT NULL,
+    "TOU_RATE" int4 DEFAULT NULL,
+    "ENVIRONMENT_OR_WILDLIFE" int4 DEFAULT NULL,
+    "ENVIRONMENTAL_ISSUES" int4 DEFAULT NULL,
+    "GREEN_LIVING" int4 DEFAULT NULL,
+    "HIGH_TECH_LIVING" int4 DEFAULT NULL,
+    "EDUCATION" varchar(70) DEFAULT NULL,
+    "Cluster" varchar(70) DEFAULT NULL,
+    UNIQUE ("ACCOUNT_ID"),
+    UNIQUE ("PREMISE_ID")
+);
+
+CREATE TABLE pge_data."04billing" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "PREMISE_ID" integer DEFAULT NULL,
+    "BILL_DATE" date DEFAULT NULL,
+    "Therms" integer DEFAULT NULL,
+    "Gas_Bill" decimal(10,2) DEFAULT NULL,
+    "kWh" integer DEFAULT NULL,
+    "Electric_Bill" decimal(10,2) DEFAULT NULL
+);
+
+CREATE TABLE pge_data."04payments" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "PREMISE_ID" integer DEFAULT NULL,
+    "PAYMENT_DATE" date DEFAULT NULL,
+    "Gas_Payment" decimal(10,2) DEFAULT NULL,
+    "Electric_Payment" decimal(10,2) DEFAULT NULL,
+    "Payment_Method" varchar(70) DEFAULT NULL
+);
+
+CREATE TABLE pge_data."05programs" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "TIMESENROLLED" integer DEFAULT NULL,
+    "BPP_start" date DEFAULT NULL,
+    "BPP_end" date DEFAULT NULL,
+    "CARE_start" date DEFAULT NULL,
+    "CARE_end" date DEFAULT NULL,
+    "ClimateSmart_start" date DEFAULT NULL,
+    "ClimateSmart_end" date DEFAULT NULL,
+    "DirAccess_start" date DEFAULT NULL,
+    "DirAccess_end" date DEFAULT NULL,
+    "SmartAC_start" date DEFAULT NULL,
+    "SmartAC_end" date DEFAULT NULL,
+    "SmartRate_start" date DEFAULT NULL,
+    "SmartRate_end" date DEFAULT NULL,
+    "MyEnergy_LastLogin" date DEFAULT NULL
+);
+
+CREATE TABLE pge_data."06rebates" (
+    "SERVICE_AGREEMENT_ID" integer DEFAULT NULL,
+    "rebate_type" varchar(50) DEFAULT NULL,
+    "application_recvd" date DEFAULT NULL,
+    "accept_date" date DEFAULT NULL,
+    "check_issue_date" date DEFAULT NULL
+);
+
+CREATE TABLE pge_data."07tickets" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "CASE_TYPE" varchar(200) DEFAULT NULL,
+    "CREATE_TIME" timestamp with time zone DEFAULT NULL,
+    "CREATE_DATE" date DEFAULT NULL
+);
+
+CREATE TABLE pge_data."08call" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "REASON" varchar(70) DEFAULT NULL,
+    "TIME" timestamp with time zone DEFAULT NULL,
+    "DATE" date DEFAULT NULL
+);
+
+CREATE TABLE pge_data."09comm" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "REFERENCE_NUM" varchar(24) DEFAULT NULL,
+    "program_name" varchar(50) DEFAULT NULL,
+    "channel" varchar(20) DEFAULT NULL,
+    "DATE" date DEFAULT NULL
+);
+
+CREATE TABLE pge_data."10emails" (
+    "ACCOUNT_ID" integer DEFAULT NULL,
+    "REFERENCE_NUM" varchar(24) DEFAULT NULL,
+    "RESPONSE_TYPE" char(3) DEFAULT NULL,
+    "CAMPAIGN_ID" char(3) DEFAULT NULL,
+    "response_date" date DEFAULT NULL
+);
+
+CREATE TABLE pge_data."11census" (
+    "SP_ID" bigint DEFAULT NULL,
+    "CENSUS_BLOCKGROUP" varchar(30) DEFAULT NULL,
+    "CBG_LATITUDE" decimal(15,10) DEFAULT NULL,
+    "CBG_LONGITUDE" decimal(15,10) DEFAULT NULL,
+    "GHCN_WBAN" varchar(22) DEFAULT NULL,
+    "GHCN_LATITUDE" decimal(15,10) DEFAULT NULL,
+    "GHCN_LONGITUDE" decimal(15,10) DEFAULT NULL
+);
+
+CREATE TABLE pge_data."12weather" (
+    "WBAN" varchar(22) DEFAULT NULL,
+    "DATE" date DEFAULT NULL,
+    "ELEMENT" varchar(8) DEFAULT NULL,
+    "VALUE" integer DEFAULT NULL,
+    "MFLAG" varchar(2) DEFAULT NULL,
+    "QFLAG" varchar(2) DEFAULT NULL,
+    "SFLAG" varchar(2) DEFAULT NULL,
+    "TIME" time DEFAULT NULL
+);
+
+CREATE TABLE pge_data."baselines" (
+    "dateEffective" date DEFAULT NULL,
+    "climateZone" char(1) DEFAULT NULL,
+    "indvOrMaster" char(1) DEFAULT NULL,
+    "basicOrFullElec" char(1) DEFAULT NULL,
+    "summerOrWinter" char(6) DEFAULT NULL,
+    "baselineElec" numeric(5,2) DEFAULT NULL
+);
+
+CREATE TABLE pge_data."electric_daily" (
+    "sp_id" bigint DEFAULT NULL,
+    "date" date DEFAULT NULL,
+    "kwh" decimal(8,4) DEFAULT NULL,
+    "n_estimated" integer DEFAULT NULL,
+    "n_blanks" integer DEFAULT NULL,
+    UNIQUE ("sp_id","date")
+);
+
+CREATE TABLE pge_data."electric_daily_mt" (
+    "sp_id" bigint DEFAULT NULL,
+    "date" date DEFAULT NULL,
+    "kwh" decimal(8,4) DEFAULT NULL,
+    "n_estimated" integer DEFAULT NULL,
+    "n_blanks" integer DEFAULT NULL,
+    "bl_effectiveDate" varchar(20) DEFAULT NULL,
+    "summerOrWinter" varchar(12) NOT NULL DEFAULT ''
+);
+
+CREATE TABLE pge_data."electric_daily_temp" (
+    "sp_id" bigint DEFAULT NULL,
+    "date" date DEFAULT NULL,
+    "kwh" decimal(8,4) DEFAULT NULL,
+    "n_estimated" integer DEFAULT NULL,
+    "n_blanks" integer DEFAULT NULL
+);
+
+CREATE TABLE pge_data."electric_interval_96" (
+    "sp_id" bigint DEFAULT NULL,
+    "date" date DEFAULT NULL,
+    "w01" integer DEFAULT NULL,
+    "w02" integer DEFAULT NULL,
+    "w03" integer DEFAULT NULL,
+    "w04" integer DEFAULT NULL,
+    "w05" integer DEFAULT NULL,
+    "w06" integer DEFAULT NULL,
+    "w07" integer DEFAULT NULL,
+    "w08" integer DEFAULT NULL,
+    "w09" integer DEFAULT NULL,
+    "w10" integer DEFAULT NULL,
+    "w11" integer DEFAULT NULL,
+    "w12" integer DEFAULT NULL,
+    "w13" integer DEFAULT NULL,
+    "w14" integer DEFAULT NULL,
+    "w15" integer DEFAULT NULL,
+    "w16" integer DEFAULT NULL,
+    "w17" integer DEFAULT NULL,
+    "w18" integer DEFAULT NULL,
+    "w19" integer DEFAULT NULL,
+    "w20" integer DEFAULT NULL,
+    "w21" integer DEFAULT NULL,
+    "w22" integer DEFAULT NULL,
+    "w23" integer DEFAULT NULL,
+    "w24" integer DEFAULT NULL,
+    "w25" integer DEFAULT NULL,
+    "w26" integer DEFAULT NULL,
+    "w27" integer DEFAULT NULL,
+    "w28" integer DEFAULT NULL,
+    "w29" integer DEFAULT NULL,
+    "w30" integer DEFAULT NULL,
+    "w31" integer DEFAULT NULL,
+    "w32" integer DEFAULT NULL,
+    "w33" integer DEFAULT NULL,
+    "w34" integer DEFAULT NULL,
+    "w35" integer DEFAULT NULL,
+    "w36" integer DEFAULT NULL,
+    "w37" integer DEFAULT NULL,
+    "w38" integer DEFAULT NULL,
+    "w39" integer DEFAULT NULL,
+    "w40" integer DEFAULT NULL,
+    "w41" integer DEFAULT NULL,
+    "w42" integer DEFAULT NULL,
+    "w43" integer DEFAULT NULL,
+    "w44" integer DEFAULT NULL,
+    "w45" integer DEFAULT NULL,
+    "w46" integer DEFAULT NULL,
+    "w47" integer DEFAULT NULL,
+    "w48" integer DEFAULT NULL,
+    "w49" integer DEFAULT NULL,
+    "w50" integer DEFAULT NULL,
+    "w51" integer DEFAULT NULL,
+    "w52" integer DEFAULT NULL,
+    "w53" integer DEFAULT NULL,
+    "w54" integer DEFAULT NULL,
+    "w55" integer DEFAULT NULL,
+    "w56" integer DEFAULT NULL,
+    "w57" integer DEFAULT NULL,
+    "w58" integer DEFAULT NULL,
+    "w59" integer DEFAULT NULL,
+    "w60" integer DEFAULT NULL,
+    "w61" integer DEFAULT NULL,
+    "w62" integer DEFAULT NULL,
+    "w63" integer DEFAULT NULL,
+    "w64" integer DEFAULT NULL,
+    "w65" integer DEFAULT NULL,
+    "w66" integer DEFAULT NULL,
+    "w67" integer DEFAULT NULL,
+    "w68" integer DEFAULT NULL,
+    "w69" integer DEFAULT NULL,
+    "w70" integer DEFAULT NULL,
+    "w71" integer DEFAULT NULL,
+    "w72" integer DEFAULT NULL,
+    "w73" integer DEFAULT NULL,
+    "w74" integer DEFAULT NULL,
+    "w75" integer DEFAULT NULL,
+    "w76" integer DEFAULT NULL,
+    "w77" integer DEFAULT NULL,
+    "w78" integer DEFAULT NULL,
+    "w79" integer DEFAULT NULL,
+    "w80" integer DEFAULT NULL,
+    "w81" integer DEFAULT NULL,
+    "w82" integer DEFAULT NULL,
+    "w83" integer DEFAULT NULL,
+    "w84" integer DEFAULT NULL,
+    "w85" integer DEFAULT NULL,
+    "w86" integer DEFAULT NULL,
+    "w87" integer DEFAULT NULL,
+    "w88" integer DEFAULT NULL,
+    "w89" integer DEFAULT NULL,
+    "w90" integer DEFAULT NULL,
+    "w91" integer DEFAULT NULL,
+    "w92" integer DEFAULT NULL,
+    "w93" integer DEFAULT NULL,
+    "w94" integer DEFAULT NULL,
+    "w95" integer DEFAULT NULL,
+    "w96" integer DEFAULT NULL,
+    "q01" int4 DEFAULT NULL,
+    "q02" int4 DEFAULT NULL,
+    "q03" int4 DEFAULT NULL,
+    "q04" int4 DEFAULT NULL,
+    "q05" int4 DEFAULT NULL,
+    "q06" int4 DEFAULT NULL,
+    "q07" int4 DEFAULT NULL,
+    "q08" int4 DEFAULT NULL,
+    "q09" int4 DEFAULT NULL,
+    "q10" int4 DEFAULT NULL,
+    "q11" int4 DEFAULT NULL,
+    "q12" int4 DEFAULT NULL,
+    "q13" int4 DEFAULT NULL,
+    "q14" int4 DEFAULT NULL,
+    "q15" int4 DEFAULT NULL,
+    "q16" int4 DEFAULT NULL,
+    "q17" int4 DEFAULT NULL,
+    "q18" int4 DEFAULT NULL,
+    "q19" int4 DEFAULT NULL,
+    "q20" int4 DEFAULT NULL,
+    "q21" int4 DEFAULT NULL,
+    "q22" int4 DEFAULT NULL,
+    "q23" int4 DEFAULT NULL,
+    "q24" int4 DEFAULT NULL,
+    "q25" int4 DEFAULT NULL,
+    "q26" int4 DEFAULT NULL,
+    "q27" int4 DEFAULT NULL,
+    "q28" int4 DEFAULT NULL,
+    "q29" int4 DEFAULT NULL,
+    "q30" int4 DEFAULT NULL,
+    "q31" int4 DEFAULT NULL,
+    "q32" int4 DEFAULT NULL,
+    "q33" int4 DEFAULT NULL,
+    "q34" int4 DEFAULT NULL,
+    "q35" int4 DEFAULT NULL,
+    "q36" int4 DEFAULT NULL,
+    "q37" int4 DEFAULT NULL,
+    "q38" int4 DEFAULT NULL,
+    "q39" int4 DEFAULT NULL,
+    "q40" int4 DEFAULT NULL,
+    "q41" int4 DEFAULT NULL,
+    "q42" int4 DEFAULT NULL,
+    "q43" int4 DEFAULT NULL,
+    "q44" int4 DEFAULT NULL,
+    "q45" int4 DEFAULT NULL,
+    "q46" int4 DEFAULT NULL,
+    "q47" int4 DEFAULT NULL,
+    "q48" int4 DEFAULT NULL,
+    "q49" int4 DEFAULT NULL,
+    "q50" int4 DEFAULT NULL,
+    "q51" int4 DEFAULT NULL,
+    "q52" int4 DEFAULT NULL,
+    "q53" int4 DEFAULT NULL,
+    "q54" int4 DEFAULT NULL,
+    "q55" int4 DEFAULT NULL,
+    "q56" int4 DEFAULT NULL,
+    "q57" int4 DEFAULT NULL,
+    "q58" int4 DEFAULT NULL,
+    "q59" int4 DEFAULT NULL,
+    "q60" int4 DEFAULT NULL,
+    "q61" int4 DEFAULT NULL,
+    "q62" int4 DEFAULT NULL,
+    "q63" int4 DEFAULT NULL,
+    "q64" int4 DEFAULT NULL,
+    "q65" int4 DEFAULT NULL,
+    "q66" int4 DEFAULT NULL,
+    "q67" int4 DEFAULT NULL,
+    "q68" int4 DEFAULT NULL,
+    "q69" int4 DEFAULT NULL,
+    "q70" int4 DEFAULT NULL,
+    "q71" int4 DEFAULT NULL,
+    "q72" int4 DEFAULT NULL,
+    "q73" int4 DEFAULT NULL,
+    "q74" int4 DEFAULT NULL,
+    "q75" int4 DEFAULT NULL,
+    "q76" int4 DEFAULT NULL,
+    "q77" int4 DEFAULT NULL,
+    "q78" int4 DEFAULT NULL,
+    "q79" int4 DEFAULT NULL,
+    "q80" int4 DEFAULT NULL,
+    "q81" int4 DEFAULT NULL,
+    "q82" int4 DEFAULT NULL,
+    "q83" int4 DEFAULT NULL,
+    "q84" int4 DEFAULT NULL,
+    "q85" int4 DEFAULT NULL,
+    "q86" int4 DEFAULT NULL,
+    "q87" int4 DEFAULT NULL,
+    "q88" int4 DEFAULT NULL,
+    "q89" int4 DEFAULT NULL,
+    "q90" int4 DEFAULT NULL,
+    "q91" int4 DEFAULT NULL,
+    "q92" int4 DEFAULT NULL,
+    "q93" int4 DEFAULT NULL,
+    "q94" int4 DEFAULT NULL,
+    "q95" int4 DEFAULT NULL,
+    "q96" int4 DEFAULT NULL,
+    UNIQUE ("sp_id","date")
+);
+
+CREATE TABLE pge_data."gas_daily" (
+    "SP_ID" bigint DEFAULT NULL,
+    "date" date DEFAULT NULL,
+    "customer_type" varchar(30) DEFAULT NULL,
+    "therms" decimal(10,5) DEFAULT NULL,
+    "q_read" varchar(2) DEFAULT NULL,
+    "electric_SP_ID" bigint DEFAULT NULL
+);
+
+CREATE TABLE pge_data."gas_electric_map" (
+    "gas_sp_id" bigint DEFAULT NULL,
+    "electric_sp_id" bigint DEFAULT NULL,
+    "premise_id" integer DEFAULT NULL
+);
+
+CREATE TABLE pge_data."monthlySummaryMTfromR" (
+    "row_names" text ,
+    "yearMonth" text ,
+    "SP_ID" double precision DEFAULT NULL,
+    "countDailykW" bigint DEFAULT NULL,
+    "countSMBlanks" bigint DEFAULT NULL,
+    "countSMEstimates" bigint DEFAULT NULL,
+    "sumDailykWh" double precision DEFAULT NULL,
+    "sumBaseline" double precision DEFAULT NULL
+);
+
+CREATE TABLE pge_data."weather_60" (
+    "zip5" varchar(10) NOT NULL,
+    "TemperatureF" numeric(5,2) DEFAULT NULL,
+    "DewpointF" numeric(5,2) DEFAULT NULL,
+    "Pressure" numeric(5,2) DEFAULT NULL,
+    "WindSpeed" numeric(5,2) DEFAULT NULL,
+    "Humidity" numeric(5,2) DEFAULT NULL,
+    "Clouds" varchar(20) DEFAULT NULL,
+    "HourlyPrecip" numeric(5,2) DEFAULT NULL,
+    "SolarRadiation" numeric(6,2) DEFAULT NULL,
+    "date" timestamp with time zone NOT NULL DEFAULT '1970-01-01 00:00:00 UTC',
+    PRIMARY KEY ("zip5","date")
+);
+
+CREATE TABLE pge_data."weather_60_merged" (
+    "zip5" varchar(10) NOT NULL,
+    "TemperatureF" numeric(5,2) DEFAULT NULL,
+    "DewpointF" numeric(5,2) DEFAULT NULL,
+    "Pressure" numeric(5,2) DEFAULT NULL,
+    "WindSpeed" numeric(5,2) DEFAULT NULL,
+    "Humidity" numeric(5,2) DEFAULT NULL,
+    "Clouds" varchar(20) DEFAULT NULL,
+    "HourlyPrecip" numeric(5,2) DEFAULT NULL,
+    "SolarRadiation" numeric(6,2) DEFAULT NULL,
+    "date" timestamp with time zone NOT NULL DEFAULT '1970-01-01 00:00:00 UTC',
+    PRIMARY KEY ("zip5","date")
+);
+
+CREATE TABLE pge_data."weather_60_new3" (
+    "zip5" varchar(10) NOT NULL,
+    "TemperatureF" numeric(5,2) DEFAULT NULL,
+    "DewpointF" numeric(5,2) DEFAULT NULL,
+    "Pressure" numeric(5,2) DEFAULT NULL,
+    "WindSpeed" numeric(5,2) DEFAULT NULL,
+    "Humidity" numeric(5,2) DEFAULT NULL,
+    "Clouds" varchar(20) DEFAULT NULL,
+    "HourlyPrecip" numeric(5,2) DEFAULT NULL,
+    "SolarRadiation" numeric(6,2) DEFAULT NULL,
+    "date" timestamp with time zone NOT NULL DEFAULT '1970-01-01 00:00:00 UTC',
+    PRIMARY KEY ("zip5","date")
+);
+
+
+-- Post-data save --
+COMMIT;
+START TRANSACTION;
+
+-- Typecasts --
+ALTER TABLE pge_data."02premise" ALTER COLUMN "E_SM_INSTALL_DATE_ACCURACY" DROP DEFAULT, ALTER COLUMN "E_SM_INSTALL_DATE_ACCURACY" TYPE boolean USING CAST("E_SM_INSTALL_DATE_ACCURACY" as boolean);
+ALTER TABLE pge_data."02premise" ALTER COLUMN "G_SM_INSTALL_DATE_ACCURACY" DROP DEFAULT, ALTER COLUMN "G_SM_INSTALL_DATE_ACCURACY" TYPE boolean USING CAST("G_SM_INSTALL_DATE_ACCURACY" as boolean);
+ALTER TABLE pge_data."02premise" ALTER COLUMN "NEM_FLAG" DROP DEFAULT, ALTER COLUMN "NEM_FLAG" TYPE boolean USING CAST("NEM_FLAG" as boolean);
+ALTER TABLE pge_data."03accounts" ALTER COLUMN "TOU_RATE" DROP DEFAULT, ALTER COLUMN "TOU_RATE" TYPE boolean USING CAST("TOU_RATE" as boolean);
+ALTER TABLE pge_data."03accounts" ALTER COLUMN "ENVIRONMENT_OR_WILDLIFE" DROP DEFAULT, ALTER COLUMN "ENVIRONMENT_OR_WILDLIFE" TYPE boolean USING CAST("ENVIRONMENT_OR_WILDLIFE" as boolean);
+ALTER TABLE pge_data."03accounts" ALTER COLUMN "ENVIRONMENTAL_ISSUES" DROP DEFAULT, ALTER COLUMN "ENVIRONMENTAL_ISSUES" TYPE boolean USING CAST("ENVIRONMENTAL_ISSUES" as boolean);
+ALTER TABLE pge_data."03accounts" ALTER COLUMN "GREEN_LIVING" DROP DEFAULT, ALTER COLUMN "GREEN_LIVING" TYPE boolean USING CAST("GREEN_LIVING" as boolean);
+ALTER TABLE pge_data."03accounts" ALTER COLUMN "HIGH_TECH_LIVING" DROP DEFAULT, ALTER COLUMN "HIGH_TECH_LIVING" TYPE boolean USING CAST("HIGH_TECH_LIVING" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q01" DROP DEFAULT, ALTER COLUMN "q01" TYPE boolean USING CAST("q01" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q02" DROP DEFAULT, ALTER COLUMN "q02" TYPE boolean USING CAST("q02" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q03" DROP DEFAULT, ALTER COLUMN "q03" TYPE boolean USING CAST("q03" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q04" DROP DEFAULT, ALTER COLUMN "q04" TYPE boolean USING CAST("q04" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q05" DROP DEFAULT, ALTER COLUMN "q05" TYPE boolean USING CAST("q05" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q06" DROP DEFAULT, ALTER COLUMN "q06" TYPE boolean USING CAST("q06" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q07" DROP DEFAULT, ALTER COLUMN "q07" TYPE boolean USING CAST("q07" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q08" DROP DEFAULT, ALTER COLUMN "q08" TYPE boolean USING CAST("q08" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q09" DROP DEFAULT, ALTER COLUMN "q09" TYPE boolean USING CAST("q09" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q10" DROP DEFAULT, ALTER COLUMN "q10" TYPE boolean USING CAST("q10" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q11" DROP DEFAULT, ALTER COLUMN "q11" TYPE boolean USING CAST("q11" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q12" DROP DEFAULT, ALTER COLUMN "q12" TYPE boolean USING CAST("q12" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q13" DROP DEFAULT, ALTER COLUMN "q13" TYPE boolean USING CAST("q13" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q14" DROP DEFAULT, ALTER COLUMN "q14" TYPE boolean USING CAST("q14" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q15" DROP DEFAULT, ALTER COLUMN "q15" TYPE boolean USING CAST("q15" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q16" DROP DEFAULT, ALTER COLUMN "q16" TYPE boolean USING CAST("q16" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q17" DROP DEFAULT, ALTER COLUMN "q17" TYPE boolean USING CAST("q17" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q18" DROP DEFAULT, ALTER COLUMN "q18" TYPE boolean USING CAST("q18" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q19" DROP DEFAULT, ALTER COLUMN "q19" TYPE boolean USING CAST("q19" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q20" DROP DEFAULT, ALTER COLUMN "q20" TYPE boolean USING CAST("q20" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q21" DROP DEFAULT, ALTER COLUMN "q21" TYPE boolean USING CAST("q21" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q22" DROP DEFAULT, ALTER COLUMN "q22" TYPE boolean USING CAST("q22" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q23" DROP DEFAULT, ALTER COLUMN "q23" TYPE boolean USING CAST("q23" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q24" DROP DEFAULT, ALTER COLUMN "q24" TYPE boolean USING CAST("q24" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q25" DROP DEFAULT, ALTER COLUMN "q25" TYPE boolean USING CAST("q25" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q26" DROP DEFAULT, ALTER COLUMN "q26" TYPE boolean USING CAST("q26" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q27" DROP DEFAULT, ALTER COLUMN "q27" TYPE boolean USING CAST("q27" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q28" DROP DEFAULT, ALTER COLUMN "q28" TYPE boolean USING CAST("q28" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q29" DROP DEFAULT, ALTER COLUMN "q29" TYPE boolean USING CAST("q29" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q30" DROP DEFAULT, ALTER COLUMN "q30" TYPE boolean USING CAST("q30" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q31" DROP DEFAULT, ALTER COLUMN "q31" TYPE boolean USING CAST("q31" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q32" DROP DEFAULT, ALTER COLUMN "q32" TYPE boolean USING CAST("q32" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q33" DROP DEFAULT, ALTER COLUMN "q33" TYPE boolean USING CAST("q33" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q34" DROP DEFAULT, ALTER COLUMN "q34" TYPE boolean USING CAST("q34" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q35" DROP DEFAULT, ALTER COLUMN "q35" TYPE boolean USING CAST("q35" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q36" DROP DEFAULT, ALTER COLUMN "q36" TYPE boolean USING CAST("q36" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q37" DROP DEFAULT, ALTER COLUMN "q37" TYPE boolean USING CAST("q37" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q38" DROP DEFAULT, ALTER COLUMN "q38" TYPE boolean USING CAST("q38" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q39" DROP DEFAULT, ALTER COLUMN "q39" TYPE boolean USING CAST("q39" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q40" DROP DEFAULT, ALTER COLUMN "q40" TYPE boolean USING CAST("q40" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q41" DROP DEFAULT, ALTER COLUMN "q41" TYPE boolean USING CAST("q41" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q42" DROP DEFAULT, ALTER COLUMN "q42" TYPE boolean USING CAST("q42" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q43" DROP DEFAULT, ALTER COLUMN "q43" TYPE boolean USING CAST("q43" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q44" DROP DEFAULT, ALTER COLUMN "q44" TYPE boolean USING CAST("q44" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q45" DROP DEFAULT, ALTER COLUMN "q45" TYPE boolean USING CAST("q45" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q46" DROP DEFAULT, ALTER COLUMN "q46" TYPE boolean USING CAST("q46" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q47" DROP DEFAULT, ALTER COLUMN "q47" TYPE boolean USING CAST("q47" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q48" DROP DEFAULT, ALTER COLUMN "q48" TYPE boolean USING CAST("q48" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q49" DROP DEFAULT, ALTER COLUMN "q49" TYPE boolean USING CAST("q49" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q50" DROP DEFAULT, ALTER COLUMN "q50" TYPE boolean USING CAST("q50" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q51" DROP DEFAULT, ALTER COLUMN "q51" TYPE boolean USING CAST("q51" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q52" DROP DEFAULT, ALTER COLUMN "q52" TYPE boolean USING CAST("q52" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q53" DROP DEFAULT, ALTER COLUMN "q53" TYPE boolean USING CAST("q53" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q54" DROP DEFAULT, ALTER COLUMN "q54" TYPE boolean USING CAST("q54" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q55" DROP DEFAULT, ALTER COLUMN "q55" TYPE boolean USING CAST("q55" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q56" DROP DEFAULT, ALTER COLUMN "q56" TYPE boolean USING CAST("q56" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q57" DROP DEFAULT, ALTER COLUMN "q57" TYPE boolean USING CAST("q57" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q58" DROP DEFAULT, ALTER COLUMN "q58" TYPE boolean USING CAST("q58" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q59" DROP DEFAULT, ALTER COLUMN "q59" TYPE boolean USING CAST("q59" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q60" DROP DEFAULT, ALTER COLUMN "q60" TYPE boolean USING CAST("q60" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q61" DROP DEFAULT, ALTER COLUMN "q61" TYPE boolean USING CAST("q61" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q62" DROP DEFAULT, ALTER COLUMN "q62" TYPE boolean USING CAST("q62" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q63" DROP DEFAULT, ALTER COLUMN "q63" TYPE boolean USING CAST("q63" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q64" DROP DEFAULT, ALTER COLUMN "q64" TYPE boolean USING CAST("q64" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q65" DROP DEFAULT, ALTER COLUMN "q65" TYPE boolean USING CAST("q65" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q66" DROP DEFAULT, ALTER COLUMN "q66" TYPE boolean USING CAST("q66" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q67" DROP DEFAULT, ALTER COLUMN "q67" TYPE boolean USING CAST("q67" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q68" DROP DEFAULT, ALTER COLUMN "q68" TYPE boolean USING CAST("q68" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q69" DROP DEFAULT, ALTER COLUMN "q69" TYPE boolean USING CAST("q69" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q70" DROP DEFAULT, ALTER COLUMN "q70" TYPE boolean USING CAST("q70" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q71" DROP DEFAULT, ALTER COLUMN "q71" TYPE boolean USING CAST("q71" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q72" DROP DEFAULT, ALTER COLUMN "q72" TYPE boolean USING CAST("q72" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q73" DROP DEFAULT, ALTER COLUMN "q73" TYPE boolean USING CAST("q73" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q74" DROP DEFAULT, ALTER COLUMN "q74" TYPE boolean USING CAST("q74" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q75" DROP DEFAULT, ALTER COLUMN "q75" TYPE boolean USING CAST("q75" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q76" DROP DEFAULT, ALTER COLUMN "q76" TYPE boolean USING CAST("q76" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q77" DROP DEFAULT, ALTER COLUMN "q77" TYPE boolean USING CAST("q77" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q78" DROP DEFAULT, ALTER COLUMN "q78" TYPE boolean USING CAST("q78" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q79" DROP DEFAULT, ALTER COLUMN "q79" TYPE boolean USING CAST("q79" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q80" DROP DEFAULT, ALTER COLUMN "q80" TYPE boolean USING CAST("q80" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q81" DROP DEFAULT, ALTER COLUMN "q81" TYPE boolean USING CAST("q81" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q82" DROP DEFAULT, ALTER COLUMN "q82" TYPE boolean USING CAST("q82" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q83" DROP DEFAULT, ALTER COLUMN "q83" TYPE boolean USING CAST("q83" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q84" DROP DEFAULT, ALTER COLUMN "q84" TYPE boolean USING CAST("q84" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q85" DROP DEFAULT, ALTER COLUMN "q85" TYPE boolean USING CAST("q85" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q86" DROP DEFAULT, ALTER COLUMN "q86" TYPE boolean USING CAST("q86" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q87" DROP DEFAULT, ALTER COLUMN "q87" TYPE boolean USING CAST("q87" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q88" DROP DEFAULT, ALTER COLUMN "q88" TYPE boolean USING CAST("q88" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q89" DROP DEFAULT, ALTER COLUMN "q89" TYPE boolean USING CAST("q89" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q90" DROP DEFAULT, ALTER COLUMN "q90" TYPE boolean USING CAST("q90" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q91" DROP DEFAULT, ALTER COLUMN "q91" TYPE boolean USING CAST("q91" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q92" DROP DEFAULT, ALTER COLUMN "q92" TYPE boolean USING CAST("q92" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q93" DROP DEFAULT, ALTER COLUMN "q93" TYPE boolean USING CAST("q93" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q94" DROP DEFAULT, ALTER COLUMN "q94" TYPE boolean USING CAST("q94" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q95" DROP DEFAULT, ALTER COLUMN "q95" TYPE boolean USING CAST("q95" as boolean);
+ALTER TABLE pge_data."electric_interval_96" ALTER COLUMN "q96" DROP DEFAULT, ALTER COLUMN "q96" TYPE boolean USING CAST("q96" as boolean);
+
+-- Post-data save --
+COMMIT;
+START TRANSACTION;
+
+-- Foreign keys --
+ALTER TABLE pge_data."02premise" ADD CONSTRAINT "02premise_ibfk_1" FOREIGN KEY ("PREMISE_ID") REFERENCES pge_data."01customer" ("PREMISE_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."02premise" ("PREMISE_ID");
+ALTER TABLE pge_data."03accounts" ADD CONSTRAINT "03accounts_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."03accounts" ("ACCOUNT_ID");
+ALTER TABLE pge_data."03accounts" ADD CONSTRAINT "03accounts_ibfk_2" FOREIGN KEY ("PREMISE_ID") REFERENCES pge_data."01customer" ("PREMISE_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."03accounts" ("PREMISE_ID");
+ALTER TABLE pge_data."04billing" ADD CONSTRAINT "04billing_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."04billing" ("ACCOUNT_ID");
+ALTER TABLE pge_data."04billing" ADD CONSTRAINT "04billing_ibfk_2" FOREIGN KEY ("PREMISE_ID") REFERENCES pge_data."01customer" ("PREMISE_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."04billing" ("PREMISE_ID");
+ALTER TABLE pge_data."04payments" ADD CONSTRAINT "04payments_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."04payments" ("ACCOUNT_ID");
+ALTER TABLE pge_data."04payments" ADD CONSTRAINT "04payments_ibfk_2" FOREIGN KEY ("PREMISE_ID") REFERENCES pge_data."01customer" ("PREMISE_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."04payments" ("PREMISE_ID");
+ALTER TABLE pge_data."05programs" ADD CONSTRAINT "05programs_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."05programs" ("ACCOUNT_ID");
+ALTER TABLE pge_data."06rebates" ADD CONSTRAINT "06rebates_ibfk_1" FOREIGN KEY ("SERVICE_AGREEMENT_ID") REFERENCES pge_data."01customer" ("SERVICE_AGREEMENT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."06rebates" ("SERVICE_AGREEMENT_ID");
+ALTER TABLE pge_data."07tickets" ADD CONSTRAINT "07tickets_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."07tickets" ("ACCOUNT_ID");
+ALTER TABLE pge_data."08call" ADD CONSTRAINT "08call_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."08call" ("ACCOUNT_ID");
+ALTER TABLE pge_data."09comm" ADD CONSTRAINT "09comm_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."09comm" ("ACCOUNT_ID");
+ALTER TABLE pge_data."10emails" ADD CONSTRAINT "10emails_ibfk_1" FOREIGN KEY ("ACCOUNT_ID") REFERENCES pge_data."01customer" ("ACCOUNT_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."10emails" ("ACCOUNT_ID");
+ALTER TABLE pge_data."11census" ADD CONSTRAINT "11census_ibfk_1" FOREIGN KEY ("SP_ID") REFERENCES pge_data."01customer" ("SP_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."11census" ("SP_ID");
+ALTER TABLE pge_data."12weather" ADD CONSTRAINT "12weather_ibfk_1" FOREIGN KEY ("WBAN") REFERENCES pge_data."11census" ("GHCN_WBAN") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."12weather" ("WBAN");
+ALTER TABLE pge_data."electric_daily" ADD CONSTRAINT "electric_daily_ibfk_1" FOREIGN KEY ("sp_id") REFERENCES pge_data."01customer" ("SP_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."electric_daily" ("sp_id");
+ALTER TABLE pge_data."electric_interval_96" ADD CONSTRAINT "electric_interval_96_ibfk_1" FOREIGN KEY ("sp_id") REFERENCES pge_data."01customer" ("SP_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."electric_interval_96" ("sp_id");
+ALTER TABLE pge_data."gas_daily" ADD CONSTRAINT "gas_daily_ibfk_1" FOREIGN KEY ("SP_ID") REFERENCES pge_data."01customer" ("SP_ID") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX ON pge_data."gas_daily" ("SP_ID");
+
+-- Sequences --
+
+-- Full Text keys --
+
+COMMIT;

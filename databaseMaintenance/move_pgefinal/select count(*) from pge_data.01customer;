@@ -1,0 +1,35 @@
+                  List of relations
+  Schema  |         Name          | Type  |  Owner   
+----------+-----------------------+-------+----------
+ gis_data | census_zcta           | table | bgrid
+ pge_data | 01customer            | table | mtabone
+ pge_data | 02premise             | table | mtabone
+ pge_data | 02premiseMT           | table | mtabone
+ pge_data | 03accountMT           | table | mtabone
+ pge_data | 03accounts            | table | mtabone
+ pge_data | 04billing             | table | mtabone
+ pge_data | 04payments            | table | mtabone
+ pge_data | 05programs            | table | mtabone
+ pge_data | 06rebates             | table | mtabone
+ pge_data | 07tickets             | table | mtabone
+ pge_data | 08call                | table | mtabone
+ pge_data | 09comm                | table | mtabone
+ pge_data | 10emails              | table | mtabone
+ pge_data | 11census              | table | mtabone
+ pge_data | 12weather             | table | mtabone
+ pge_data | baselines             | table | mtabone
+ pge_data | electric_daily        | table | mtabone
+ pge_data | electric_daily_mt     | table | mtabone
+ pge_data | electric_daily_temp   | table | mtabone
+ pge_data | electric_interval_96  | table | mtabone
+ pge_data | gas_daily             | table | mtabone
+ pge_data | gas_electric_map      | table | mtabone
+ pge_data | monthlySummaryMTfromR | table | mtabone
+ pge_data | weather_60            | table | mtabone
+ pge_data | weather_60_merged     | table | mtabone
+ pge_data | weather_60_new3       | table | mtabone
+ public   | spatial_ref_sys       | table | postgres
+ topology | layer                 | table | postgres
+ topology | topology              | table | postgres
+(30 rows)
+

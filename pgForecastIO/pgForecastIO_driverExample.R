@@ -50,18 +50,16 @@ callCount = 0 # this will be our counter to make sure that we're below our API c
 
 for (i in nrow(myPoints)){  # could also use an apply function, but would be less readable
 
-  if (callCount < dailyCalls){
-    newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]
-    print(paste("Processed node ",myPoints[i,'name']))
-    callCount = callCount + length(newCalls)
-  }else{
+  if (callCount >= dailyCalls){
     # We've hit our call count; wait until midnight and then go ahead
     print("Call limit reached; sleeping until midnight")
     secsTillMidnight <- as.double(24 - (Sys.time() - as.POSIXct(trunc(Sys.time(),units="days") ) ) )  #Awkward, but this works... times in R are a headache
     Sys.sleep(secsTillMidnight)
     callCount = 0
+  }
+  
     newCalls = FIOWeatherGetDataAtAllCosts(latitude = myPoints[i,'latitude'], longitude = myPoints[i,'longitude'], timebounds = tbounds, dbcon =wcon, apikey = apikey, verbose = TRUE, callCount = TRUE)[1]
     print(paste("Processed node ",myPoints[i,'name']))
-    callCount = callCount + length(newCalls)
-  }
+    callCount = callCount + length(newCalls$callCount)
+
 } # comment this to just work with one location

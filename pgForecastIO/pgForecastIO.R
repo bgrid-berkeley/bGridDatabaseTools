@@ -47,11 +47,11 @@ FIOWeatherGetDataAtAllCosts <- function(latitude, longitude, timebounds, dbcon, 
   outputlist <- list()
   outputlist$data <- outputDf
   
-  # If requested, also retuen the number of calls. 
-  if (callCount == TRUE){ 
+  # If requested, also return the number of calls. 
+  if (callCount == TRUE){
     outputlist$callCount <- length(daysCheck$datesToLoad)
+    message(paste("Processed call count: ",outputlist$callCount))
   }
-  
   return(outputlist)
   
 }
@@ -117,8 +117,8 @@ DBWeatherGetDays <- function(locId, timebounds, dbcon, returndata = TRUE){
   
   
   ## Construct dates to return, all times should be in local standard time 
-  dates <- seq(from = timebounds[1], to = timebounds[2], by = 24 * 3600)
-  dates <- round(dates,'days')
+  dates <- seq(from = tbounds[1], to = tbounds[2]-1, by = 3600)   # Sequence by hours to account for daylight savings
+  dates <- unique(trunc(dates,'days'))
   
   ## Grab the days for this location 
   msqldatestr <- paste("\'",dates,"\'", collapse=",", sep = "")
@@ -230,8 +230,8 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     hoursUTC <- fio.list$hourly.df$time
     attr(hoursUTC, 'tzone') <- 'UTC'
     
-    newcolshourly <- data.frame( 'locId' = matrix(locId[1], nrow= 24),  # Not robust to daylight savings?
-                                 'dayId' = matrix(dayId[1], nrow= 24), 
+    newcolshourly <- data.frame( 'locId' = matrix(locId[1], nrow= length(hoursUTC)),
+                                 'dayId' = matrix(dayId[1], nrow= length(hoursUTC)), 
                                  'dateTime' = hoursUTC )
     ncol    <- dim(fio.list$hourly.df)[2]
     hourly.in <- cbind(newcolshourly, fio.list$hourly.df[,c(4:ncol)])
@@ -266,8 +266,8 @@ DBWeatherGetHours <- function(locId, timebounds, dbcon){
   con <- dbcon
   
   ## Construct dates to return, all times should be in local standard time 
-  dates <- seq(from = timebounds[1], to = timebounds[2], by = 24 * 3600)
-  dates <- round(dates,'days')
+  dates <- seq(from = tbounds[1], to = tbounds[2]-1, by = 3600)   # Sequence by hours to account for daylight savings
+  dates <- unique(trunc(dates,'days'))
   
   ## Grab the dayIDs for this call 
   msqldatestr <- paste("\'",dates,"\'", collapse=",", sep = "")

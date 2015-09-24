@@ -22,23 +22,4 @@ Source: http://www.revsys.com/writings/quicktips/ssh-tunnel.html
 Now we can access rstudio on the remote machine in any browser. 
 Just use the web-address `localhost:8789`
 
-You will need your username and password for db1 to log into Rstudio server 
-
-## UPDATE THE INSTALLED PACKAGES
-
-Please update the following list of packages you've installed. Not 
-```r
-install.packages('plyr')
-install.packages('ggplot2')
-```
-
-## Install package for forecastio use
-
-To use the forecastio scraper, you will need to set your user's R settings to have dependent packages.  Run the following code
-
-```r
-install.packages("devtools")
-install.packages("RPostgreSQL")
-install_github("Rforecastio","hrbrmstr")
-```
-You should now be able to connect to the server.
+You will need your username and password for bGrid to log into Rstudio server 

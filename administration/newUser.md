@@ -11,7 +11,7 @@ User must send administrator
 ### Create username
 Server will prompt you to add the actual name of the user and for other information. Include the user's email address under "other" 
 ```bash
-adduser [username]
+sudo adduser [username]
 ```
 
 ### Add RSA key
@@ -32,7 +32,7 @@ I use nano to edit the authorized keys file. Simply add each key on a new line o
 We configure ssh such that only an explicit list of users can have remote ssh access. You can add the user to this list by using nano to edit the ssh configuration file. The configuration file is ``/etc/ssh/sshd_congig``, the list is on line 29.
 
 The user should now be able to ssh into the server using the command
-```ssh [username]@bgrid.lbl.gov -p 5022```
+```ssh [username]@bgrid.lbl.gov -p ****```
 
 ## Give the user a postgres account
 Login to postgres, create a user, and add them to appropriate groups

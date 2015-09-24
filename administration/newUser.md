@@ -7,6 +7,9 @@ User must send administrator
 * contents of the id_rsa.pub file in their .ssh directory, and
 * desired username
 
+Ensure that the user has proper security! 
+This entails making sure files have the correct permissions, defined here: https://github.com/bgrid/bGridDatabaseTools/blob/master/administration/RSAKeySecurity.md
+
 ## Set up a user account on the server
 ### Create username
 Server will prompt you to add the actual name of the user and for other information. Include the user's email address under "other" 

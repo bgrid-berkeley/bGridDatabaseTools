@@ -29,7 +29,11 @@ nano .ssh/authorized_keys
 I use nano to edit the authorized keys file. Simply add each key on a new line of the file. Use ``ctrl+o`` to write the file out and ``ctrl+x`` to exit.  This must be edited from the new user's account for the permissions to be correct (hence the ``su`` step).  
 
 ### Allow the user ssh access
-We configure ssh such that only an explicit list of users can have remote ssh access. You can add the user to this list by using nano to edit the ssh configuration file. The configuration file is ``/etc/ssh/sshd_congig``, the list is on line 29.
+We configure ssh such that only an explicit list of users can have remote ssh access. You can add the user to this list by using nano to edit the ssh configuration file. The configuration file is ``/etc/ssh/sshd_config``, the list is on line 29.
+``` 
+sudo nano /etc/ssh/sshd_config
+```
+
 
 The user should now be able to ssh into the server using the command
 ```ssh [username]@bgrid.lbl.gov -p ****```

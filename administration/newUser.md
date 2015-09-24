@@ -44,3 +44,4 @@ Login to postgres, create a user, and add them to appropriate groups
 CREATE ROLE username WITH LOGIN, PASSWORD  '[makepasswordhere]';
 GRANT bgrid to username;
 ```
+I'm not too worried about having very secure passwords becasue of the RSA key authentication. 

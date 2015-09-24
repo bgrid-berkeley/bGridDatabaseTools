@@ -1,18 +1,18 @@
 # Database Tools
 
-## [pgAdmin3 Tutorial]()
+## [pgAdmin3 Tutorial](https://github.com/bgrid/bGridDatabaseTools/blob/master/databaseTools/pgAdmin3_tutorial.md)
 Tutorial for connecting to the database using pgAdmin3.
 
-## [What's a Schema?]()
+## [What's a Schema?](https://github.com/bgrid/bGridDatabaseTools/blob/master/databaseTools/schemas.md)
 Description of the database structure.
 If loading a new set of data to the database, please create a schema for it and add documentation [here]()
 
-## [Load Data]()
+## [Load Data](https://github.com/bgrid/bGridDatabaseTools/blob/master/databaseTools/loadData)
 Tutorial and example files for loading data into the database.
 
 If loading a new set of data to the database, please create a schema for it and add documentation [here!]()
 
-## [postGIS primer](https://github.com/bgrid/bGridDatabaseTools/blob/master/databaseTools/pgAdmin3_tutorial.md)
+## [postGIS primer](https://github.com/bgrid/bGridDatabaseTools/blob/master/databaseTools/postGIS.md)
 For loading map data like shapefiles to the database. 
 
 ## [pgForecastIO](https://github.com/bgrid/bGridDatabaseTools/tree/master/databaseTools/pgForecastIO)

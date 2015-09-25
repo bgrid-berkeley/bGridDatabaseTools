@@ -1,6 +1,6 @@
 # Adding a New User to the Database 
 ## RSA Key Creation
-Ask user to generate RSA Key ans set up a github account.  Instructions are here. 
+Ask user to generate RSA Key and set up a github account.  Instructions are here. 
 https://help.github.com/articles/generating-ssh-keys/
 
 User must send administrator 

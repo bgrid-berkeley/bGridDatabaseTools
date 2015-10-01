@@ -8,16 +8,16 @@
 
 ## Please edit this readme with installed packages on the server!
 ```R
-install.packages('RPostgreSQL')
-install.packages('RColorBrewer')
+install.packages('doMC')
+install.packages('doParallel')
+install.packages('foreach')
 install.packages('ggplot2')
 install.packages('grid')
-install.packages('foreach')
-install.packages('doMC')
-install.packages('RPostgreSQL')
-install.packages('plyr')
-install.packages('optimx')
 install.packages('MASS')
 install.packages('MCMCpack')
-install.packages('doParallel')
+install.packages('optimx')
+install.packages('plyr')
+install.packages('RColorBrewer')
+install.packages('RPostgreSQL')
+install.packages('RPostgreSQL')
 ```

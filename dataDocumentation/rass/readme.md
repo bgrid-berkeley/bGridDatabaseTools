@@ -7,7 +7,7 @@ Cleaned variables from the California's Residential Appliance Saturation Survey 
 
 A "conditional demand analysis'' (CDA) is used to find the unit energy consumption (UEC). 
 * UEC is defined by an engineering estimate of energy use for each appliance, multipled by a "scaling factor." 
-* There is one scaling factor for each type of appliance. Thus variation in UAE results from appliance ownership and the housing stock, but not from the individual habits of each repondent. 
-* Scaling factors are identified by regrgressing ``normalized monthly energy use'' of each house onto the engineering estiamtes of appliance energy use for each appliance in the house. 
+* There is one scaling factor for each type of appliance. Thus variation in UAE results from appliance ownership and the housing stock, but not from the individual habits of each respondent. 
+* Scaling factors are identified by regressing ``normalized monthly energy use'' of each house onto the engineering estiamtes of appliance energy use for each appliance in the house. 
 * RASS survey sampleing is stratified random (on housing type, climate zone, utility, home age, and presence of electric heat). Regressions are weighted appropriately to represent each startum's representativeness of the population. The populatoin is defined as all users served by the participating utilities --- LADPW, PG&E, SDG&E, SCE. 
-* Normalized Annual Consumption for each house is the predicted energy consumption during a standard weather profile. This is identified for each house separately using a Princeton Scorekeeping Model (PRISM). 
+* ``Normalized energy use'' for each house/month is the predicted energy consumption during a standard weather year. This is identified for each house separately using a Princeton Scorekeeping Model (PRISM). 

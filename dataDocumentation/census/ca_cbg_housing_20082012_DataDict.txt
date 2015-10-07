@@ -1,0 +1,336 @@
+--------------------------------------------------------------------------------
+Codebook for Social Explorer report ID: R11027784
+--------------------------------------------------------------------------------
+
+Contents
+    - Table Summary
+    - Data Dictionary
+    - Citation and Use
+
+
+--------------------------------------------------------------------------------
+Table Summary
+--------------------------------------------------------------------------------
+ 
+Survey:           ACS 2012 (5-Year Estimates)
+Dataset:          Social Explorer Tables:  ACS 2012 (5-Year Estimates)
+Tables:
+
+      1. Total Population
+         Universe:  Total Population
+         Name:      T1
+         Variables:
+            T001_001:   Total Population
+
+
+      2. Population Density (per sq. mile)
+         Universe:  Total Population
+         Name:      T2
+         Variables:
+            T002_001:   Total Population
+            T002_002:   Population Density (per sq. mile)
+            T002_003:   Area (Land)
+
+
+      3. Households By Household Type
+         Universe:  Households
+         Name:      T17
+         Variables:
+            T017_001:   Households:
+            T017_002:      Family Households:
+            T017_003:         Married-couple Family
+            T017_004:         Other Family:
+            T017_005:            Male Householder, no wife present
+            T017_006:            Female Householder, no husband present
+            T017_007:      Nonfamily Households:
+            T017_008:         Male Householder
+            T017_009:         Female Householder
+
+
+      4. Average Household Size
+         Universe:  Occupied Households
+         Name:      T21
+         Variables:
+            T021_001:   Average Household Size
+
+
+      5. Household Income (In <DollarYear> Inflation Adjusted Dollars)
+         Universe:  Households
+         Name:      T56
+         Variables:
+            T056_001:   Households:
+            T056_002:      Less than $10,000
+            T056_003:      $10,000 to $14,999
+            T056_004:      $15,000 to $19,999
+            T056_005:      $20,000 to $24,999
+            T056_006:      $25,000 to $29,999
+            T056_007:      $30,000 to $34,999
+            T056_008:      $35,000 to $39,999
+            T056_009:      $40,000 to $44,999
+            T056_010:      $45,000 to $49,999
+            T056_011:      $50,000 to $59,999
+            T056_012:      $60,000 to $74,999
+            T056_013:      $75,000 to $99,999
+            T056_014:      $100,000 to $124,999
+            T056_015:      $125,000 to $149,999
+            T056_016:      $150,000 to $199,999
+            T056_017:      $200,000 or More
+
+
+      6. Median Household Income (In <DollarYear> Inflation Adjusted Dollars)
+         Universe:  Households
+         Name:      T57
+         Variables:
+            T057_001:   Median household income (In 2012 Inflation Adjusted Dollars)
+
+
+      7. Average Household Income (In <DollarYear> Inflation Adjusted Dollars)
+         Universe:  Households
+         Name:      T59
+         Variables:
+            T059_001:   Average household income (In 2012 Inflation Adjusted Dollars)
+
+
+      8. Housing Units In Structure
+         Universe:  Housing Units
+         Name:      T97
+         Variables:
+            T097_001:   Housing Units:
+            T097_002:      1 Unit:
+            T097_003:         1, detached
+            T097_004:         1, attached
+            T097_005:      2
+            T097_006:      3 or 4
+            T097_007:      5 to 9
+            T097_008:      10 to 19
+            T097_009:      20 to 49
+            T097_010:      50 or More
+            T097_011:      Mobile home
+            T097_012:      Boat, RV, van, etc.
+
+
+      9. Median Year Structure Built
+         Universe:  Housing units
+         Name:      T98
+         Variables:
+            T098_001:   Median year structure built
+
+
+      10. House Heating Fuel
+          Universe:  Occupied Housing Units
+          Name:      T99
+          Variables:
+             T099_001:   Occupied Housing Units:
+             T099_002:      Gas (Utility, Bottled, tank, or LP gas)
+             T099_003:      Electricity
+             T099_004:      Fuel oil, kerosene, etc.
+             T099_005:      Coal, coke or Wood
+             T099_006:      Solar energy
+             T099_007:      Other fuel
+             T099_008:      No fuel used
+
+
+
+
+
+Survey:           ACS 2012 (5-Year Estimates)
+Dataset:          American Community Survey Tables:  2008 -- 2012 (5-Year Estimates)
+Tables:
+
+      1. Rooms
+         Universe:  Universe:  Housing units
+         Name:      B25017
+         Variables:
+            B25017001:   Total
+            B25017002:      1 Room
+            B25017003:      2 Rooms
+            B25017004:      3 Rooms
+            B25017005:      4 Rooms
+            B25017006:      5 Rooms
+            B25017007:      6 Rooms
+            B25017008:      7 Rooms
+            B25017009:      8 Rooms
+            B25017010:      9 Or More Rooms
+
+
+      2. Rooms
+         Universe:  Universe:  Housing units
+         Name:      B25017_se
+         Variables:
+            B25017001s:   Std. Error: Total
+            B25017002s:      Std. Error: 1 Room
+            B25017003s:      Std. Error: 2 Rooms
+            B25017004s:      Std. Error: 3 Rooms
+            B25017005s:      Std. Error: 4 Rooms
+            B25017006s:      Std. Error: 5 Rooms
+            B25017007s:      Std. Error: 6 Rooms
+            B25017008s:      Std. Error: 7 Rooms
+            B25017009s:      Std. Error: 8 Rooms
+            B25017010s:      Std. Error: 9 Or More Rooms
+
+
+
+
+
+ 
+ 
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Variables 
+      FIPS:           FIPS
+      NAME:           Name of Area
+      QName:          Qualifying Name
+      STUSAB:         State/U.S.-Abbreviation (USPS)
+      SUMLEV:         Summary Level
+      GEOCOMP:        Geographic Component
+      FILEID:         File Identification
+      LOGRECNO:       Logical Record Number
+      US:             US
+      REGION:         Region
+      DIVISION:       Division
+      STATECE:        State (Census Code)
+      STATE:          State (FIPS)
+      COUNTY:         County
+      COUSUB:         County Subdivision (FIPS)
+      PLACE:          Place (FIPS Code)
+      PLACESE:        Place (State FIPS + Place FIPS)
+      TRACT:          Census Tract
+      BLKGRP:         Block Group
+      CONCIT:         Consolidated City
+      AIANHH:         American Indian Area/Alaska Native Area/Hawaiian Home Land (Census)
+      AIANHHFP:       American Indian Area/Alaska Native Area/Hawaiian Home Land (FIPS)
+      AIHHTLI:        American Indian Trust Land/Hawaiian Home Land Indicator
+      AITSCE:         American Indian Tribal Subdivision (Census)
+      AITS:           American Indian Tribal Subdivision (FIPS)
+      ANRC:           Alaska Native Regional Corporation (FIPS)
+      CBSA:           Metropolitan and Micropolitan Statistical Area
+      CSA:            Combined Statistical Area
+      METDIV:         Metropolitan Division
+      MACC:           Metropolitan Area Central City
+      MEMI:           Metropolitan/Micropolitan Indicator Flag
+      NECTA:          New England City and Town Combined Statistical Area
+      CNECTA:         New England City and Town Area
+      NECTADIV:       New England City and Town Area Division
+      UA:             Urban Area
+      UACP:           Urban Area Central Place
+      CDCURR:         Current Congressional District ***
+      SLDU:           State Legislative District Upper
+      SLDL:           State Legislative District Lower
+      VTD:            Voting District
+      ZCTA3:          ZIP Code Tabulation Area (3-digit)
+      ZCTA5:          ZIP Code Tabulation Area (5-digit)
+      SUBMCD:         Subbarrio (FIPS)
+      SDELM:          School District (Elementary)
+      SDSEC:          School District (Secondary)
+      SDUNI:          School District (Unified)
+      UR:             Urban/Rural
+      PCI:            Principal City Indicator
+      TAZ:            Traffic Analysis Zone
+      UGA:            Urban Growth Area
+      PUMA5:          Public Use Microdata Area - 5% File
+      PUMA1:          Public Use Microdata Area - 1% File
+      GEOID:          Geographic Identifier
+      BTTR:           Tribal Tract
+      BTBG:           Tribal Block Group
+      AREALAND:       Area (Land)
+      AREAWATR:       Area (Water)
+      T001_001:       Total Population
+      T002_001:       Total Population
+      T002_002:       Population Density (per sq. mile)
+      T002_003:       Area (Land)
+      T017_001:       Households
+      T017_002:       Family Households
+      T017_003:       Family Households: Married-couple Family
+      T017_004:       Family Households: Other Family
+      T017_005:       Family Households: Other Family: Male Householder, no wife present
+      T017_006:       Family Households: Other Family: Female Householder, no husband present
+      T017_007:       Nonfamily Households
+      T017_008:       Nonfamily Households: Male Householder
+      T017_009:       Nonfamily Households: Female Householder
+      T021_001:       Average Household Size
+      T056_001:       Households
+      T056_002:       Household Income: Less than $10,000
+      T056_003:       Household Income: $10,000 to $14,999
+      T056_004:       Household Income: $15,000 to $19,999
+      T056_005:       Household Income: $20,000 to $24,999
+      T056_006:       Household Income: $25,000 to $29,999
+      T056_007:       Household Income: $30,000 to $34,999
+      T056_008:       Household Income: $35,000 to $39,999
+      T056_009:       Household Income: $40,000 to $44,999
+      T056_010:       Household Income: $45,000 to $49,999
+      T056_011:       Household Income: $50,000 to $59,999
+      T056_012:       Household Income: $60,000 to $74,999
+      T056_013:       Household Income: $75,000 to $99,999
+      T056_014:       Household Income: $100,000 to $124,999
+      T056_015:       Household Income: $125,000 to $149,999
+      T056_016:       Household Income: $150,000 to $199,999
+      T056_017:       Household Income: $200,000 or More
+      T057_001:       Median household income (In 2012 Inflation adjusted dollars)
+      T059_001:       Average household income (In 2012 Inflation adjusted dollars)
+      T097_001:       Housing Units
+      T097_002:       Housing Units: 1 Unit
+      T097_003:       Housing Units: 1 Unit: 1, detached
+      T097_004:       Housing Units: 1 Unit: 1, attached
+      T097_005:       Housing Units: 2
+      T097_006:       Housing Units: 3 or 4
+      T097_007:       Housing Units: 5 to 9
+      T097_008:       Housing Units: 10 to 19
+      T097_009:       Housing Units: 20 to 49
+      T097_010:       Housing Units: 50 or More
+      T097_011:       Housing Units: Mobile home
+      T097_012:       Housing Units: Boat, RV, van, etc.
+      T098_001:       Median year structure built
+      T099_001:       Occupied Housing Units
+      T099_002:       Occupied Housing Units: House Heating Fuel: Gas (Utility, Bottled, tank, or LP gas)
+      T099_003:       Occupied Housing Units: House Heating Fuel: Electricity
+      T099_004:       Occupied Housing Units: House Heating Fuel: Fuel oil, kerosene, etc.
+      T099_005:       Occupied Housing Units: House Heating Fuel: Coal, coke or Wood
+      T099_006:       Occupied Housing Units: House Heating Fuel: Solar energy
+      T099_007:       Occupied Housing Units: House Heating Fuel: Other fuel
+      T099_008:       Occupied Housing Units: House Heating Fuel: No fuel used
+      B25017001:      Housing Units
+      B25017002:      Housing Units: 1 Room
+      B25017003:      Housing Units: 2 Rooms
+      B25017004:      Housing Units: 3 Rooms
+      B25017005:      Housing Units: 4 Rooms
+      B25017006:      Housing Units: 5 Rooms
+      B25017007:      Housing Units: 6 Rooms
+      B25017008:      Housing Units: 7 Rooms
+      B25017009:      Housing Units: 8 Rooms
+      B25017010:      Housing Units: 9 Or More Rooms
+      B25017001s:     Std. Error: Housing Units
+      B25017002s:     Std. Error: Housing Units: 1 Room
+      B25017003s:     Std. Error: Housing Units: 2 Rooms
+      B25017004s:     Std. Error: Housing Units: 3 Rooms
+      B25017005s:     Std. Error: Housing Units: 4 Rooms
+      B25017006s:     Std. Error: Housing Units: 5 Rooms
+      B25017007s:     Std. Error: Housing Units: 6 Rooms
+      B25017008s:     Std. Error: Housing Units: 7 Rooms
+      B25017009s:     Std. Error: Housing Units: 8 Rooms
+      B25017010s:     Std. Error: Housing Units: 9 Or More Rooms
+
+
+
+
+--------------------------------------------------------------------------------
+Citation and Use of Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* Publications and research reports employing the data
+  must cite it appropriately. The citation should include the following:
+
+	  www.socialexplorer.com
+	  New York City, NY: Social Explorer 2015
+
+
+* Citations should also include the URL for this report:
+
+    http://www.socialexplorer.com/pub/reportdata/HtmlResults.aspx?reportid=R11027784
+
+If you have any questions contact info@socialexplorer.com

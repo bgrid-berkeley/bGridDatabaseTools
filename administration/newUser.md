@@ -37,6 +37,10 @@ We configure ssh such that only an explicit list of users can have remote ssh ac
 sudo nano /etc/ssh/sshd_config
 ```
 
+Restart the ssh server so that the configuration settings go into effect (this will not kick off other users).
+```
+sudo service ssh restart
+```
 
 The user should now be able to ssh into the server using the command
 ```ssh [username]@bgrid.lbl.gov -p ****```

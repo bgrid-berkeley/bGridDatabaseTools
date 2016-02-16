@@ -9,7 +9,10 @@ This is dependent on the Rforecastio library, which is installed through the dev
 
 To see an example of using this tool in R see [pgForecastIO_driverExample.md](https://github.com/bgrid/bGridDatabaseTools/blob/master/pgForecastIO/pgForecastIO_driverExample.R).  
 
+## Update
+pgForecatIO_v2.R now uses the newer version of Rforecastio.  The major difference is that we no longer have to input our API keys in the files... however they do need to be stored as environment variables. 
 
+You must create or edit a file in your home directory ~/.Renviron.  Add a line to this file: FORECASTIO_API_KEY = [your key here]
 
 ## LIST OF FUNCTIONS ************************************************************************
 * ``FIOWeatherGetHourlyAtAllCosts`` looks for hourly weather data in the database, and if any data do not exist it will fetch them from forecast.io

@@ -16,4 +16,4 @@ To automate backups, the following line is included in michaelangelo's crontab f
 
 ``0 0 * * * /home/michaelangelo/bgrid_bckup_job/pg_backup_rotated.sh``
 
-This line schedules the shell script to run at mid-night on every day of every month (and excludes no weekdays). It can be accessed by running `crontab -e` from michaelangelo's account on EMAC3U. 
+This line schedules the shell script to run at midnight on every day of every month (and excludes no weekdays). It can be accessed by running `crontab -e` from michaelangelo's account on EMAC3U. 

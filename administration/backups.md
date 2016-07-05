@@ -9,7 +9,7 @@ There are two important files:
  
 Both files are adapted from this template: https://wiki.postgresql.org/wiki/Automated_Backup_on_Linux. A line to open an ssh tunnel to the bgrid2 server is added to the configuration file. And all references to `pg_dump` or `pg_dumpall` are edited in the shell file so that they point to psql version 9.5 instead 9.3 (/usr/lib/postgresql/9.5/bin/ is added before all references to pg_dump or pg_dumpall). 
 
-To make the script work michaelangelo is set to be the owner of the mounted hard disk and all subfolders leading to the backups. All files should be readable by users on the disk.  
+To make the script work, michaelangelo was made the the owner of the mounted hard disk and all subfolders leading to the backups. All files should be readable by all users on EMAC3U.  
 
 # Automation
 To automate backups, the following line is included in michaelangelo's crontab file. 

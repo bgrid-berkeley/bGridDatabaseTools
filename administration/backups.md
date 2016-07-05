@@ -12,8 +12,8 @@ Both files are adapted from this template: https://wiki.postgresql.org/wiki/Auto
 To make the script work michaelangelo is set to be the owner of the mounted hard disk and all subfolders leading to the backups. All files should be readable by users on the disk.  
 
 # Automation
-To automate backups, the following line is included in michaelangelo's crontab file. This file is accessed with the command `crontab -e` from michaelangelo's account.
-
+To automate backups, the following line is included in michaelangelo's crontab file. 
 
 ``0 0 * * * /home/michaelangelo/bgrid_bckup_job/pg_backup_rotated.sh``
-This line schedules a run of the shell script at mid-night on every day of every month (and excludes no weekdays). 
+
+This line schedules the shell script to run at mid-night on every day of every month (and excludes no weekdays). It can be accessed by running `crontab -e` from michaelangelo's account on EMAC3U. 

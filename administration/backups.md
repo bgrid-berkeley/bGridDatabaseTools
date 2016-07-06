@@ -13,6 +13,6 @@ To make the script work, Michaelangelo was made the the owner of the mounted har
 
 # Automation via crontab
 To automate backups, the following line is included in Michaelangelo's crontab file. 
-``0 0 * * * /home/michaelangelo/bgrid_bckup_job/pg_backup_rotated.sh``
+```0 0 * * * /home/michaelangelo/bgrid_bckup_job/pg_backup_rotated.sh```
 
 This line schedules the shell script to run at midnight on every day of every month excluting no weekdays. It can be accessed by running `crontab -e` from michaelangelo's account on EMAC3U. 

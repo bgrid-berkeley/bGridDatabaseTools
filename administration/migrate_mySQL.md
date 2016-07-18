@@ -50,3 +50,15 @@ do
 	mysql dbname -u root -p$mysqlpass -e "SELECT * from ${tables[i]} INTO OUTFILE '/tmp/${tables[i]}.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n';"
 done   
 ```
+
+## Import csv to PostgreSQL server. 
+You may need to ftp the csv files to the server to do this.  If there aren't too many files you can also use the data import function in pgAdmin3. 
+
+I rewrote the bash loop from above to do the loading. Where the database name from mysql is not a schema_name in psql.  All data are stored in the same bgrid2 database. 
+```bash
+for i in `seq 0 3`;
+do
+	psql bgrid2 --port=5435 -U mtabone --host=127.0.0.1 -c "COPY schema_name.\"${tables[i]}\" FROM '/tmp/${tables[i]}.csv' DELIMITER ',' CSV;"
+done    
+
+```

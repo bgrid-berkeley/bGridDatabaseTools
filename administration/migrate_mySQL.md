@@ -20,7 +20,7 @@ mysqldump dbname -u root -p --compatible=postgresql --no-data > /path/to/file.sq
 ```
 
 ## Edit table definitions 
-Edit the table definitions. 
+Edit the data type definitions. 
 * tinyint to int
 * int(*) to int 
 * smallint to int
@@ -29,15 +29,24 @@ Edit the table definitions.
 * float to double
 * numeric to double 
 
+Default timestamps in mysql are sometimes `00:00:00 00-00-00`, these need to be changed. I changed them to null, which I think is more appropriate. I removed a not null constraint when necessary. 
+
+Remove all keys (you'll need to add them later) 
+
+Add a schema name before each table name.
+
+## Run table definition scripts in psql
+Edit definitions when necessary. 
+
 ## Export data to csv files
 Sometimes there are many tables in a database, but I still want to export each individually to a csv file. 
-Given the table names, this bash scrips will do this export and dump it in the `\tmp` directory. 
+Given the table names, this bash scrips will do this export and dump it in the `\tmp` directory. Note that password to the mysql database is saved as an environment variable: mysqlpass. 
 
 ```bash
-tables=(EMPowerSample  H2OPowerSample HVACPowerSample POOLPowerSample accountList mergedData  thermostatData  weather   zipInfo)  
+tables=(table0 table1 table2 table3)  
 
-for i in `seq 0 8`;
+for i in `seq 0 3`;
 do
-	mysql consertdata -u root -p$mysqlrootpass -e "SELECT * from ${tables[i]} INTO OUTFILE '/tmp/${tables[i]}.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n';"
+	mysql dbname -u root -p$mysqlpass -e "SELECT * from ${tables[i]} INTO OUTFILE '/tmp/${tables[i]}.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n';"
 done   
 ```

@@ -1,7 +1,7 @@
 ## Load required libraries and source the file with the database functions
 require(RPostgreSQL)
 require(Rforecastio)
-source('path/to/bGridDatabaseTools/pgForecastIO/pgForecastIO.R')
+source('path/to/bGridDatabaseTools/pgForecastIO/pgForecastIO_v2.R')
 
 ## Setup the postgresql driver
 drv <- dbDriver("PostgreSQL")

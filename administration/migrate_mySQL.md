@@ -40,7 +40,8 @@ Edit definitions when necessary.
 
 ## Export data to csv files
 Sometimes there are many tables in a database, but I still want to export each individually to a csv file. 
-Given the table names, this bash scrips will do this export and dump it in the `\tmp` directory. Note that password to the mysql database is saved as an environment variable: mysqlpass. 
+Given the table names, this bash scrips will do this export and dump it in the `\tmp` directory. Note that password to the mysql database is saved as an environment variable: mysqlpass.  If the mysql database is on a remote server it's best to export the files there and then ftp them when you're done. 
+
 
 ```bash
 tables=(table0 table1 table2 table3)  
@@ -51,7 +52,7 @@ do
 done   
 ```
 
-## Import csv to PostgreSQL server. 
+## Import csv to PostgreSQL. 
 You may need to ftp the csv files to the server to do this.  If there aren't too many files you can also use the data import function in pgAdmin3. 
 
 I rewrote the bash loop from above to do the loading. Where the database name from mysql is not a schema_name in psql.  All data are stored in the same bgrid2 database. 

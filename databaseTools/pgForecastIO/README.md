@@ -3,11 +3,8 @@ This file contains functions to (A) load data from the API into the database and
 
 This is dependent on the Rforecastio library, which is installed through the devtools package. With devtools loaded, run install_github("Rforecastio","hrbrmstr") to get the current version of Rforecastio. 
 
-** Note: This has not yet been adapted to version 2.x of Rforecastio. Please install version 1.3.0 of Rforecastio by running devtools::install_github("Rforecastio","hrbrmstr", ref="1065fc816496b0723ab1c9fba3d7faffd794410d") from within R/Rstudio.**
-
-
-
 To see an example of using this tool in R see [pgForecastIO_driverExample.md](https://github.com/bgrid/bGridDatabaseTools/blob/master/pgForecastIO/pgForecastIO_driverExample.R).  
+
 
 ## Update
 pgForecatIO_v2.R now uses the newer version of Rforecastio.  The major difference is that we no longer have to input our API keys in the files... however they do need to be stored as environment variables. 

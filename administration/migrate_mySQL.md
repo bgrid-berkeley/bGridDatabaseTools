@@ -2,7 +2,7 @@
 Written by MT. 
 
 I couldn't  get any of the out-of-the-box tools to work, though they are listed here: https://wiki.postgresql.org/wiki/Converting_from_other_Databases_to_PostgreSQL
-Maybe between now and the time you look at this they will be updated and more user-friendly. 
+Maybe now they are updated and more user-friendly. 
 
 I ended up doing quite a bit of manual labor for this migration. 
 * Export table definitions from mysql in a "psql friendly" manner. 

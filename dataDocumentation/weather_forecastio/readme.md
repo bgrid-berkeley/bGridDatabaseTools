@@ -1,5 +1,5 @@
 # weather_forecastio
-This shema stores data that were downloaded from the [ForecastIO API](http://forecast.io). I've written R scripts to automate the dowloading and uploading, they're stored in this repository under [databaseTools/pgForecastIO](../../databaseTools/pgForecastIO). ForecastIO profides daily and hourly summary data>
+This shema stores data that were downloaded from the [ForecastIO API](http://forecast.io). I've written R scripts to automate the dowloading and uploading, they're stored in this repository under [databaseTools/pgForecastIO](../../databaseTools/pgForecastIO). ForecastIO profides daily and hourly summary data, and we store both. 
 
 All data from the pgForecastIO program are contained in three tables
 - locations: stores all locations for which we have data, and provides a unieuq LocID. 

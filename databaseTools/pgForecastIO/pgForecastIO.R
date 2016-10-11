@@ -201,7 +201,9 @@ FIOWeatherGrabLoad <- function(latitude, longitude, dates, locId = NA, dbcon, ap
     
     ## put daily.in times into the MySQLs timexone
     attr(daily.in$dateCreated,     'tzone') <- 'UTC'
-    attr(daily.in$dateMeasurement, 'tzone') <- 'UTC'
+    # attr(daily.in$dateMeasurement, 'tzone') <- 'UTC' #This is commented to keep the date in dateMeasurement as the local date. 
+    # Otherwise, time zones ahead of GMT will be off by one day 
+    # (e.g. 2012-02-01 00:00 Europe/Munich would be 2012-01-31 00:00 UTC and would be saved as '2012-01-31' in 'dateMeasurement' Fixed 2016-10-11 by eric munsing.
     
     # create dayId column (required for the psql R connection :( )
     dayId <- as.numeric(dbGetQuery(wcon, 'SELECT max("dayId") from weather_forecastio."dailyData";')+1)
